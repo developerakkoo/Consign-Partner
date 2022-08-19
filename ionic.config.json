@@ -1,0 +1,7 @@
+{
+  "name": "Consign-Agent",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
