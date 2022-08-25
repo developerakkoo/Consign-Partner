@@ -1,0 +1,93 @@
+
+
+<ion-content>
+  <ion-segment (ionChange)="segmentChanged($event)" value="vehicle">
+    <ion-segment-button value="vehicle">
+      <ion-label>Vehicle Owner</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="agent">
+      <ion-label>Agent</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="company">
+      <ion-label>Company</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+  <ion-grid fixed [hidden]="!isVehicleOwnerSelected">
+    <ion-row>
+      <ion-col  sizeSm="12" sizeMd="12" sizeXs="11" sizeLg="6" offsetLg="3">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle>Welcome vehicle owner!</ion-card-subtitle>
+            <ion-card-title>Please login</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-input type="email" placeholder="Email"></ion-input>
+            <ion-input type="text" placeholder="Password"></ion-input>
+            <ion-button (click)="onLogin()" expand="block">
+              Login
+            </ion-button>
+
+            <ion-text (click)="goToVehicleOwnerRegister()"  color="medium" class="ion-text-center">
+              <p>Not yet registered? Click here</p>
+            </ion-text>
+          
+          
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+  <ion-grid fixed [hidden]="!isAgentSelected">
+    <ion-row>
+      <ion-col  sizeSm="12" sizeMd="12" sizeXs="11" sizeLg="6" offsetLg="3">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle>Welcome Agent!</ion-card-subtitle>
+            <ion-card-title>Please login to continue</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-input type="email" placeholder="Email"></ion-input>
+            <ion-input type="text" placeholder="Password"></ion-input>
+            <ion-button (click)="onLogin()" expand="block">
+              Login
+            </ion-button>
+
+            <ion-text (click)="goToAgentRegister()" color="medium" class="ion-text-center">
+              <p>Not yet registered? Click here</p>
+            </ion-text>
+          
+        
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid fixed [hidden]="!isCompanySelected">
+    <ion-row>
+      <ion-col  sizeSm="12" sizeMd="12" sizeXs="11" sizeLg="6" offsetLg="3">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle>Welcome Company!</ion-card-subtitle>
+            <ion-card-title>Please login to continue</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-input type="email" placeholder="Email"></ion-input>
+            <ion-input type="text" placeholder="Password"></ion-input>
+            <ion-button (click)="onLogin()" expand="block">
+              Login
+            </ion-button>
+
+            <ion-text (click)="goToCompanyRegister()" color="medium" class="ion-text-center">
+              <p>Not yet registered? Click here</p>
+            </ion-text>
+   
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

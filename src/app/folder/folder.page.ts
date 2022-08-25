@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-folder',
@@ -9,10 +9,28 @@ import { ActivatedRoute } from '@angular/router';
 export class FolderPage implements OnInit {
   public folder: string;
 
-  constructor(private activatedRoute: ActivatedRoute) { }
+  isCompletedSegment: boolean = false;
+
+
+  constructor(private activatedRoute: ActivatedRoute,
+              private router: Router) { }
 
   ngOnInit() {
     this.folder = this.activatedRoute.snapshot.paramMap.get('id');
+  }
+
+  segmentChanged(ev){
+    if(ev.detail.value === "enq"){
+      this.isCompletedSegment = false;
+    }
+    else if(ev.detail.value === "cenq"){
+      this.isCompletedSegment = true;
+    }
+
+  }
+
+  onOpenDetailPage(){
+    this.router.navigate(['enquiry']);
   }
 
 }

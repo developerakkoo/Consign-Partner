@@ -1,0 +1,98 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Enquiry Details</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  
+  <ion-text class="ion-text-center" color="primary">
+    <h1>Goods Images</h1>
+  </ion-text>
+  <div style="display:flex; justify-content:center; flex-direction:row; flex-wrap: wrap; margin:10px;">
+    <img style="height:200px; width: 200px;" src="assets/chair.png" alt="" srcset="">
+    <img style="height:200px; width: 200px;" src="assets/chair.png" alt="" srcset="">
+    <img style="height:200px; width: 200px;" src="assets/chair.png" alt="" srcset="">
+    <img style="height:200px; width: 200px;" src="assets/bed.png" alt="" srcset="">
+  
+  </div>
+
+  
+<ion-grid>
+  <ion-row>
+    <ion-col sizeLg="8" offsetLg="2" sizeMd="12" sizeSm="12" sizeXs="12">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Details</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-label>
+            <strong>Pick up: </strong><span class="ion-padding-start" >Pune Katraj Lane 1</span><br>
+            <strong>Helper: </strong><span class="ion-padding-start" >YES</span><br>
+            <strong>Packing: </strong><span color="danger" class="ion-padding-start" >No</span><br>
+            <strong>Dispatch: </strong><span class="ion-padding-start" >Today 1:30 pm</span>
+          </ion-label>
+          <br>
+          <ion-label>
+            <strong>Drop: </strong><span class="ion-padding-start" >Banglore Lane 1</span>
+          </ion-label>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+    <ion-col sizeLg="8" offsetLg="2" sizeMd="12" sizeSm="12" sizeXs="12">
+      <ion-text color="dark">
+        <h1>Create quote for order</h1>
+      </ion-text>
+      <form [formGroup]="quoteForm" (ngSubmit)="onSubmit()">
+        <ion-item>
+          <ion-label position="floating">Vehicle No <ion-text color="danger">*</ion-text></ion-label>
+          <ion-input required formControlName="vehicleNo" type="text"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Driver Mobile <ion-text color="danger">*</ion-text></ion-label>
+          <ion-input required formControlName="driverMobile" type="text"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Freight Charges <ion-text color="danger">*</ion-text></ion-label>
+          <ion-input required formControlName="freightCharges" type="text"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Advance <ion-text color="danger">*</ion-text></ion-label>
+          <ion-input required formControlName="advance" type="text"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Helper Charges <ion-text color="danger">*</ion-text></ion-label>
+          <ion-input required formControlName="helper" type="text"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Packing Charges <ion-text color="danger">*</ion-text></ion-label>
+          <ion-input required formControlName="packing" type="text"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Waiting Charges <ion-text color="danger">*</ion-text></ion-label>
+          <ion-input required formControlName="waiting" type="text"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-item>
+            <ion-label position="floating">Payment Type <ion-text color="danger">*</ion-text></ion-label>
+            <ion-select formControlName="payment" value="cash" multiple="false" placeholder="Select type">
+              <ion-select-option value="cash">Cash</ion-select-option>
+              <ion-select-option value="google">Google Pay</ion-select-option>
+              <ion-select-option value="phonepay">Phonepay</ion-select-option>
+              <ion-select-option value="patym">Paytym</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-item>
+
+        <ion-button block color="primary" type="submit" [disabled]="!quoteForm.invalid">
+          Submit
+        </ion-button>
+      </form>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+</ion-content>

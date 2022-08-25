@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Complete your registration</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="11">
+        <form [formGroup]="vehicleRegistrationForm" (ngSubmit)="onSubmit()">
+          <ion-item>
+            <ion-label position="floating">E-Mail <ion-text color="danger">*</ion-text></ion-label>
+            <ion-input required formControlName="email" type="text"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Password <ion-text color="danger">*</ion-text></ion-label>
+            <ion-input required formControlName="password" type="text"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Firstname <ion-text color="danger">*</ion-text></ion-label>
+            <ion-input required formControlName="name" type="text"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Lastname <ion-text color="danger">*</ion-text></ion-label>
+            <ion-input required formControlName="surname" type="text"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Mobile No <ion-text color="danger">*</ion-text></ion-label>
+            <ion-input required formControlName="mobile" type="number"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Alternate Mobile <ion-text color="danger">*</ion-text></ion-label>
+            <ion-input required formControlName="alternateMobile" type="number"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Origin <ion-text color="danger">*</ion-text></ion-label>
+            <ion-input required formControlName="origin" type="text"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Destination <ion-text color="danger">*</ion-text></ion-label>
+            <ion-input required formControlName="destination" type="text"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Flat no <ion-text color="danger">*</ion-text></ion-label>
+            <ion-input required formControlName="flatNo" type="text"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Address <ion-text color="danger">*</ion-text></ion-label>
+            <ion-input required formControlName="apartmentAddress" type="text"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Office Address <ion-text color="danger">*</ion-text></ion-label>
+            <ion-input required formControlName="officeAddress" type="text"></ion-input>
+          </ion-item>
+         
+          <ion-button block color="primary" type="submit" [disabled]="vehicleRegistrationForm.invalid">
+            Register
+          </ion-button>
+        </form>
+      </ion-col>
+      <ion-col size="6"></ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>
