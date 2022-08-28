@@ -21,8 +21,8 @@
             <ion-card-title>Please login</ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            <ion-input type="email" placeholder="Email"></ion-input>
-            <ion-input type="text" placeholder="Password"></ion-input>
+            <ion-input [(ngModel)]="email" type="email" placeholder="Email"></ion-input>
+            <ion-input [(ngModel)]="password" type="text" placeholder="Password"></ion-input>
             <ion-button (click)="onLogin()" expand="block">
               Login
             </ion-button>
@@ -48,8 +48,8 @@
             <ion-card-title>Please login to continue</ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            <ion-input type="email" placeholder="Email"></ion-input>
-            <ion-input type="text" placeholder="Password"></ion-input>
+            <ion-input [(ngModel)]="email" type="email" placeholder="Email"></ion-input>
+            <ion-input [(ngModel)]="password" type="text" placeholder="Password"></ion-input>
             <ion-button (click)="onLogin()" expand="block">
               Login
             </ion-button>
@@ -74,8 +74,8 @@
             <ion-card-title>Please login to continue</ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            <ion-input type="email" placeholder="Email"></ion-input>
-            <ion-input type="text" placeholder="Password"></ion-input>
+            <ion-input [(ngModel)]="email" type="email" placeholder="Email"></ion-input>
+            <ion-input [(ngModel)]="password" type="text" placeholder="Password"></ion-input>
             <ion-button (click)="onLogin()" expand="block">
               Login
             </ion-button>

@@ -1,9 +1,11 @@
+import { DataService } from './../services/data.service';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { RegisterCompanyPage } from './../register-company/register-company.page';
 import { RegisterVehicleownerPage } from './../register-vehicleowner/register-vehicleowner.page';
 import { RegisterAgentPage } from './../register-agent/register-agent.page';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoadingController, ModalController, ToastController } from '@ionic/angular';
+import { LoadingController, ModalController, ToastController, AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-auth',
@@ -12,6 +14,10 @@ import { LoadingController, ModalController, ToastController } from '@ionic/angu
 })
 export class AuthPage implements OnInit {
 
+  email: string;
+  password: string;
+
+
   isAgentSelected: boolean= false;
   isCompanySelected: boolean = false;
   isVehicleOwnerSelected: boolean = true;
@@ -19,14 +25,43 @@ export class AuthPage implements OnInit {
   constructor(private router: Router,
               private toastController: ToastController,
               private modalController: ModalController,
-              private loadingController: LoadingController) { }
+              private loadingController: LoadingController,
+              private alertController: AlertController,
+              private auth: AngularFireAuth,
+              private data: DataService) { }
 
   ngOnInit() {
   }
+  async presentError(msg) {
+    const alert = await this.alertController.create({
+      header: 'Error occured!',
+      subHeader: 'Something went wrong!',
+      message: msg,
+      buttons: ['OK']
+    });
+  
+    await alert.present();
+  }
 
-  onLogin(){
+  async onLogin(){
+    let loading = await this.loadingController.create({
+      message: "Logging you in..."
+    })
+    await loading.present();
     console.log("Login");
-    this.router.navigate(['folder']);
+    this.auth.signInWithEmailAndPassword(this.email, this.password)
+    .then(async (user) =>{
+      await this.data.set("userid", user.user.uid);
+      await this.data.set('usertype', this.isVehicleOwnerSelected);
+      await loading.dismiss();
+      this.router.navigate(['folder']);
+
+    }).catch(async (error) =>{
+      await loading.dismiss();
+      this.presentError(error.message);
+
+    })
+
   }
 
   segmentChanged(ev: any) {
@@ -65,6 +100,8 @@ export class AuthPage implements OnInit {
   async presentVehicleOwnerModal() {
     const modal = await this.modalController.create({
     component: RegisterVehicleownerPage,
+    backdropDismiss: true,
+    canDismiss: true,
     componentProps: { value: 123 }
     });
   

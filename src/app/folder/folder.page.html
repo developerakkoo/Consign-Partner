@@ -24,37 +24,14 @@
             <ion-label>All Available Enquiris</ion-label>
           </ion-list-header>
 
-          <ion-item (click)="onOpenDetailPage()" detail>
+          <ion-item *ngFor="let order of orders | async" (click)="onOpenDetailPage(order.orderId)" detail>
             <ion-label>
-              <h4>Pick up: Pune </h4>
-              <h5>Drop: Banglore</h5>
-              <h5>Dispatch time: today /1:30pm</h5>
+              <h4>Pick up: {{order.sender?.City}} </h4>
+              <h5>Drop: {{order.receiver?.City}}</h5>
+              <h5>Dispatch time: {{order?.date | date}} / {{order?.time}} </h5>
             </ion-label>
           </ion-item>
-
-          <ion-item detail>
-            <ion-label>
-              <h4>Pick up: Pune </h4>
-              <h5>Drop: Banglore</h5>
-              <h5>Dispatch time: today /1:30pm</h5>
-            </ion-label>
-          </ion-item>
-
-          <ion-item detail>
-            <ion-label>
-              <h4>Pick up: Pune </h4>
-              <h5>Drop: Banglore</h5>
-              <h5>Dispatch time: today /1:30pm</h5>
-            </ion-label>
-          </ion-item>
-
-          <ion-item detail>
-            <ion-label>
-              <h4>Pick up: Pune </h4>
-              <h5>Drop: Banglore</h5>
-              <h5>Dispatch time: today /1:30pm</h5>
-            </ion-label>
-          </ion-item>
+          
         </ion-list>
 
         <ion-list *ngIf="isCompletedSegment">

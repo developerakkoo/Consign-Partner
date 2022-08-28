@@ -12,11 +12,24 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { IonicStorageModule } from '@ionic/storage-angular';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDQ0ZCA4N9SqgS2su0awaZbmcox8tWbY58",
+  authDomain: "test-75cf9.firebaseapp.com",
+  projectId: "test-75cf9",
+  storageBucket: "test-75cf9.appspot.com",
+  messagingSenderId: "71939903995",
+  appId: "1:71939903995:web:42ffbcb63f22573f093b5e",
+  measurementId: "G-LT1P926Y55"
+};
+
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig),
-  AngularFireAuthModule, AngularFireDatabaseModule,AngularFireStorageModule],
+    AngularFireModule.initializeApp(firebaseConfig),
+  AngularFireAuthModule, AngularFireDatabaseModule,AngularFireStorageModule,AngularFirestoreModule, IonicStorageModule.forRoot({name: 'agent'})],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })

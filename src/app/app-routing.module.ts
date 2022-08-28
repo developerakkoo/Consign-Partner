@@ -28,7 +28,7 @@ const routes: Routes = [
     loadChildren: () => import('./register-vehicleowner/register-vehicleowner.module').then( m => m.RegisterVehicleownerPageModule)
   },
   {
-    path: 'enquiry',
+    path: 'enquiry/:orderId',
     loadChildren: () => import('./enquiry/enquiry.module').then( m => m.EnquiryPageModule)
   },
   {

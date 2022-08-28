@@ -1,5 +1,10 @@
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { Component, OnInit } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastController, ModalController, LoadingController, AlertController } from '@ionic/angular';
+import { DataService } from '../services/data.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-folder',
@@ -7,16 +12,28 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./folder.page.scss'],
 })
 export class FolderPage implements OnInit {
-  public folder: string;
+  public userid: string;
 
   isCompletedSegment: boolean = false;
+  orders: Observable<any>;
+  OrderCollection: AngularFirestoreCollection<any>;
+
 
 
   constructor(private activatedRoute: ActivatedRoute,
-              private router: Router) { }
+              private router: Router,
+              private toastController: ToastController,
+              private modalController: ModalController,
+              private loadingController: LoadingController,
+              private alertController: AlertController,
+              private auth: AngularFireAuth,
+              private afs: AngularFirestore,
+              private data: DataService) { 
+                this.OrderCollection = this.afs.collection<any>('Orders');
+                this.orders = this.OrderCollection.valueChanges();
+              }
 
-  ngOnInit() {
-    this.folder = this.activatedRoute.snapshot.paramMap.get('id');
+   ngOnInit() {
   }
 
   segmentChanged(ev){
@@ -29,8 +46,10 @@ export class FolderPage implements OnInit {
 
   }
 
-  onOpenDetailPage(){
-    this.router.navigate(['enquiry']);
+  onOpenDetailPage(id){
+    console.log(id);
+    
+    this.router.navigate(['enquiry', id]);
   }
 
 }
