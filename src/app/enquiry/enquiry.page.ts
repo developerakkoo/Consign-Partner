@@ -1,3 +1,4 @@
+import { DataService } from './../services/data.service';
 import { LoadingController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
@@ -11,11 +12,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./enquiry.page.scss'],
 })
 export class EnquiryPage implements OnInit {
+  partnerId;
+  partnerName;
+
+
 
   orderid;
+  isAcceptedQuoteOrder = "false";
 
   OrderRef: AngularFirestoreDocument<any>;
   Order: Observable<any>;
+
+  partnerRef: AngularFirestoreDocument<any>;
+  partner: Observable<any>;
 
   images: any[] = [];
   date: string;
@@ -34,6 +43,7 @@ export class EnquiryPage implements OnInit {
               private router: Router,
               private loadingController: LoadingController,
               private afs: AngularFirestore,
+              private data: DataService,
               private route: ActivatedRoute) {
                
                 
@@ -45,22 +55,36 @@ export class EnquiryPage implements OnInit {
       helper:['', [Validators.required]],
       packing: ['', [Validators.required]],
       waiting: ['', [Validators.required]],
-      payment:['', [Validators.required]]
+      payment:['', [Validators.required]],
+      cancel:['', [Validators.required]]
     })
    }
 
   async ngOnInit() {
+    this.partnerId = await this.data.get('userid');
     this.orderid = this.route.snapshot.paramMap.get("orderId");
+    this.isAcceptedQuoteOrder = this.route.snapshot.paramMap.get("value");
     console.log(`OrderId ${this.orderid}`);
+    console.log(`APrtner Id ${this.partnerId}`);
     this.OrderRef  = this.afs.doc(`Orders/${this.orderid}`);
     this.quoteCollection = this.afs.collection('Quote');
+
+    this.partnerRef = this.afs.doc(`VehicleOwner/${this.partnerId}`);
+    this.partnerRef.valueChanges().subscribe((data) =>
+    {
+      console.log(data);
+      this.partnerName = data['name'];
+      
+    })
    
     let loading = await this.loadingController.create({
       message: "Fetching order Details..."
     })
 
     await loading.present();
-    this.OrderRef.valueChanges().subscribe(async (order) =>{
+    this.OrderRef.valueChanges()
+    .subscribe(async (order) =>
+    {
       console.log(order);
       this.images = order['images'];
       this.date = order['date'];
@@ -79,6 +103,26 @@ export class EnquiryPage implements OnInit {
     })
   }
 
+  accept(){
+    console.log("OrderAccepted");
+    this.OrderRef.update({
+      status: 'ongoing'
+    }).then((success) =>{
+      console.log(success);
+      this.router.navigate(['approved', this.orderid]);
+    }).catch((error) =>{
+      console.log(error);
+      
+    })
+    
+  }
+
+  reject(){
+    console.log("Order Rejected");
+    
+
+  }
+
   async onSubmit(){
     let loading = await this.loadingController.create({
       message: "Fetching order Details..."
@@ -88,7 +132,9 @@ export class EnquiryPage implements OnInit {
     let obj = {
       orderId : this.orderid,
       userId: this.userid,
-      partnerId: "",
+      partnerId:this.partnerId,
+      status: 'live',
+      companyname: this.partnerName,
       vehicleNo:this.quoteForm.value.vehicleNo,
       driverMobile: this.quoteForm.value.driverMobile,
       advance: this.quoteForm.value.advance,
@@ -96,6 +142,7 @@ export class EnquiryPage implements OnInit {
       packing: this.quoteForm.value.packing,
       paymentMode: this.quoteForm.value.payment,
       waiting: this.quoteForm.value.waiting,
+      cancel: this.quoteForm.value.cancel,
       freightCharges: this.quoteForm.value.freightCharges
     }
     console.log(obj);

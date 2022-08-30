@@ -28,11 +28,11 @@ const routes: Routes = [
     loadChildren: () => import('./register-vehicleowner/register-vehicleowner.module').then( m => m.RegisterVehicleownerPageModule)
   },
   {
-    path: 'enquiry/:orderId',
+    path: 'enquiry/:orderId/:value',
     loadChildren: () => import('./enquiry/enquiry.module').then( m => m.EnquiryPageModule)
   },
   {
-    path: 'approved',
+    path: 'approved/:orderid',
     loadChildren: () => import('./approved/approved.module').then( m => m.ApprovedPageModule)
   },
   {

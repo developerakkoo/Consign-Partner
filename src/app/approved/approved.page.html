@@ -62,19 +62,17 @@
           </ion-label>
           <br><br>
           
-            <ion-label><strong>VEHICLE NUMBER:</strong> KA01323</ion-label><br>
-            <ion-label><strong>CONSIGNMENT NUMBER:</strong> BLR98765</ion-label><br>
-            <ion-label><strong>DRIVER NUMBER:</strong> 8007477126</ion-label><br>
+            <ion-label><strong>VEHICLE NUMBER:</strong>  <ion-input type="text" [(ngModel)]="vehicleNo" placeholder="You Vehicle no"></ion-input> </ion-label><br>
+            <ion-label><strong>CONSIGNMENT NUMBER:</strong> <ion-input type="text" [(ngModel)]="conNo"  placeholder="Consignment no"></ion-input> </ion-label><br>
+            <ion-label><strong>DRIVER NUMBER:</strong> <ion-input type="number" [(ngModel)]="driverNo"  placeholder="Mobile no"></ion-input> </ion-label><br>
+            <ion-button (click)="approveDetails()" expand="block" fill="clear" shape="round">
+              Submit details to user
+            </ion-button>
        
         </ion-card-content>
       </ion-card>
     </ion-col>
-    <ion-col sizeLg="8" offsetLg="2" sizeMd="12" sizeSm="12" sizeXs="12">
-      <ion-text color="dark">
-        <h1>Create quote for order</h1>
-      </ion-text>
-     
-    </ion-col>
+    
   </ion-row>
 </ion-grid>
 </ion-content>

@@ -1,6 +1,14 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-title>Enquiry Details</ion-title>
+    <ion-button *ngIf="isAcceptedQuoteOrder == 'true'" slot="end" color="success" (click)="accept()">
+      <ion-icon slot="start" name="checkmark"></ion-icon>
+      Accept
+    </ion-button>
+    <ion-button *ngIf="isAcceptedQuoteOrder == 'true'" slot="end" color="danger" (click)="reject()">
+      <ion-icon slot="start" name="remove"></ion-icon>
+      Reject
+    </ion-button>
   </ion-toolbar>
 </ion-header>
 
@@ -39,7 +47,7 @@
         </ion-card-content>
       </ion-card>
     </ion-col>
-    <ion-col sizeLg="8" offsetLg="2" sizeMd="12" sizeSm="12" sizeXs="12">
+    <ion-col *ngIf="isAcceptedQuoteOrder == 'false'" sizeLg="8" offsetLg="2" sizeMd="12" sizeSm="12" sizeXs="12">
       <ion-text color="dark">
         <h1>Create quote for order</h1>
       </ion-text>
@@ -75,6 +83,12 @@
         <ion-item>
           <ion-label position="floating">Waiting Charges <ion-text color="danger">*</ion-text></ion-label>
           <ion-input required formControlName="waiting" type="text"></ion-input>
+        </ion-item>
+
+
+        <ion-item>
+          <ion-label position="floating">Cancel Charges <ion-text color="danger">*</ion-text></ion-label>
+          <ion-input required formControlName="cancel" type="text"></ion-input>
         </ion-item>
         <ion-item>
           <ion-item>

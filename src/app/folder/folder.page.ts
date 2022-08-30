@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastController, ModalController, LoadingController, AlertController } from '@ionic/angular';
 import { DataService } from '../services/data.service';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-folder',
@@ -13,10 +14,18 @@ import { Observable } from 'rxjs';
 })
 export class FolderPage implements OnInit {
   public userid: string;
+  partnerId;
+
 
   isCompletedSegment: boolean = false;
+  segmentName: string = 'live';
+
   orders: Observable<any>;
   OrderCollection: AngularFirestoreCollection<any>;
+
+  pendingOrders: Observable<any>;
+  pendingOrderCollection: AngularFirestoreCollection<any>;
+
 
 
 
@@ -29,27 +38,41 @@ export class FolderPage implements OnInit {
               private auth: AngularFireAuth,
               private afs: AngularFirestore,
               private data: DataService) { 
-                this.OrderCollection = this.afs.collection<any>('Orders');
+                this.OrderCollection = this.afs.collection<any>('Orders', ref => ref.where('status', '==',this.segmentName));
                 this.orders = this.OrderCollection.valueChanges();
+               
               }
 
-   ngOnInit() {
+   async ngOnInit() {
+    this.partnerId = await this.data.get('userid');
+    this.pendingOrderCollection = this.afs.collection<any>('AcceptedQuote', ref => ref.where('partnerId', '==', this.partnerId));
+    this.pendingOrders = this.pendingOrderCollection.snapshotChanges().pipe(
+      map(actions => actions.map(a => {
+        const data = a.payload.doc.data();
+        const id = a.payload.doc.id;
+        return { id, ...data };
+      }))
+    );
+
   }
 
   segmentChanged(ev){
     if(ev.detail.value === "enq"){
       this.isCompletedSegment = false;
+      this.segmentName = 'live';
     }
     else if(ev.detail.value === "cenq"){
       this.isCompletedSegment = true;
+      this.segmentName = 'pending';
+
     }
 
   }
 
-  onOpenDetailPage(id){
+  onOpenDetailPage(id, value){
     console.log(id);
     
-    this.router.navigate(['enquiry', id]);
+    this.router.navigate(['enquiry', id, value]);
   }
 
 }
