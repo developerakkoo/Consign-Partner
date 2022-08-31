@@ -44,6 +44,9 @@ export class RegisterVehicleownerPage implements OnInit {
   ngOnInit() {
   }
 
+  close(){
+    this.modalController.dismiss();
+  }
 
   async presentError(msg) {
     const alert = await this.alertController.create({

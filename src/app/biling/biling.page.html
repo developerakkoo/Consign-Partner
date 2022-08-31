@@ -1,9 +1,50 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>biling</ion-title>
+  <ion-toolbar color="primary">
+    <ion-title>Billing Summary</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+<ion-grid fixed>
+  <ion-row>
+    <ion-col sizeLg="6" offsetLg="3" sizeMd="12" sizeSm="12" sizeXs="12">
+      <!-- <div>
+        <ion-text class="ion-text-center" color="primary">
+          <h1>Driver will arrive for pickup. Customer will share START OTP. Driver enters START OTP and begings journey.</h1>
+          <h2>After reaching the destination driver requests customer to share STOP OTP. After driver enters STOP OTP billing summary is generated. </h2>
+        </ion-text>
+      </div> -->
+      <ion-button (click)="goHome()" expand="block" >
+        Go Home
+      </ion-button>
 
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Summary</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-text color="dark">
+            <h1><strong>Total</strong> {{total | currency:"INR"}} </h1>
+            <h2><strong>Helper</strong> {{helper | currency:"INR"}} </h2>
+            <h2><strong>Packing</strong> {{packing | currency:"INR"}} </h2>
+            <!-- <h2><strong>Fare</strong> {{7000 | currency:"INR"}} </h2> -->
+          </ion-text>
+          <ion-item-divider>
+            <ion-label></ion-label>
+          </ion-item-divider>
+
+          <ion-text color="dark">
+            <h1><strong>Kilometers</strong> {{780}} </h1>
+            <h2><strong>Start time</strong> {{startTime}}</h2>
+            <h2><strong>End Time</strong> 10:45</h2>
+            <h2><strong>Waiting Time</strong> 0 </h2>
+          </ion-text>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+</ion-grid>
 </ion-content>

@@ -36,7 +36,7 @@ const routes: Routes = [
     loadChildren: () => import('./approved/approved.module').then( m => m.ApprovedPageModule)
   },
   {
-    path: 'biling',
+    path: 'biling/:id',
     loadChildren: () => import('./biling/biling.module').then( m => m.BilingPageModule)
   }
 ];

@@ -9,10 +9,8 @@
     <h1>Goods Images</h1>
   </ion-text>
   <div style="display:flex; justify-content:center; flex-direction:row; flex-wrap: wrap; margin:10px;">
-    <img style="height:200px; width: 200px;" src="assets/chair.png" alt="" srcset="">
-    <img style="height:200px; width: 200px;" src="assets/chair.png" alt="" srcset="">
-    <img style="height:200px; width: 200px;" src="assets/chair.png" alt="" srcset="">
-    <img style="height:200px; width: 200px;" src="assets/bed.png" alt="" srcset="">
+    <img *ngFor="let img of images" style="height:200px; width: 200px;" [src]="img" alt="" srcset="">
+    
   
   </div>
   <ion-grid>
@@ -24,16 +22,16 @@
           <ion-card-content>
             <ion-item>
               <ion-label>START OTP</ion-label>
-              <ion-input placeholder="start otp here"></ion-input>
-              <ion-button color="success" (click)="onClick()" slot="end">
+              <ion-input placeholder="start otp here" [(ngModel)]="startOTPInput"></ion-input>
+              <ion-button color="success" (click)="startOrder()" slot="end">
                 <ion-icon size="large" slot="icon-only" name="checkmark"></ion-icon>
               </ion-button>
             </ion-item>
 
             <ion-item>
               <ion-label>STOP OTP</ion-label>
-              <ion-input placeholder="stop otp here"></ion-input>
-              <ion-button color="danger" (click)="onClick()" slot="end">
+              <ion-input  [(ngModel)]="stopOTPInput" placeholder="stop otp here"></ion-input>
+              <ion-button color="danger" (click)="stopOrder()" slot="end">
                 <ion-icon size="large" slot="icon-only" name="close"></ion-icon>
               </ion-button>
             </ion-item>

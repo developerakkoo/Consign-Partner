@@ -14,7 +14,7 @@
   </ion-segment>
   <ion-grid fixed [hidden]="!isVehicleOwnerSelected">
     <ion-row>
-      <ion-col  sizeSm="12" sizeMd="12" sizeXs="11" sizeLg="6" offsetLg="3">
+      <ion-col  sizeSm="12" sizeMd="12" sizeXs="12" sizeLg="6" offsetLg="3">
         <ion-card>
           <ion-card-header>
             <ion-card-subtitle>Welcome vehicle owner!</ion-card-subtitle>
@@ -23,11 +23,11 @@
           <ion-card-content>
             <ion-input [(ngModel)]="email" type="email" placeholder="Email"></ion-input>
             <ion-input [(ngModel)]="password" type="text" placeholder="Password"></ion-input>
-            <ion-button (click)="onLogin()" expand="block">
+            <ion-button size="large" mode="ios" (click)="onLogin()" expand="block">
               Login
             </ion-button>
 
-            <ion-text (click)="goToVehicleOwnerRegister()"  color="medium" class="ion-text-center">
+            <ion-text  class="ion-margin-top" (click)="goToVehicleOwnerRegister()"  color="medium" class="ion-text-center">
               <p>Not yet registered? Click here</p>
             </ion-text>
           
@@ -41,7 +41,7 @@
 
   <ion-grid fixed [hidden]="!isAgentSelected">
     <ion-row>
-      <ion-col  sizeSm="12" sizeMd="12" sizeXs="11" sizeLg="6" offsetLg="3">
+      <ion-col  sizeSm="12" sizeMd="12" sizeXs="12" sizeLg="6" offsetLg="3">
         <ion-card>
           <ion-card-header>
             <ion-card-subtitle>Welcome Agent!</ion-card-subtitle>
@@ -50,11 +50,11 @@
           <ion-card-content>
             <ion-input [(ngModel)]="email" type="email" placeholder="Email"></ion-input>
             <ion-input [(ngModel)]="password" type="text" placeholder="Password"></ion-input>
-            <ion-button (click)="onLogin()" expand="block">
+            <ion-button size="large" mode="ios" (click)="onLogin()" expand="block">
               Login
             </ion-button>
 
-            <ion-text (click)="goToAgentRegister()" color="medium" class="ion-text-center">
+            <ion-text  class="ion-margin-top" (click)="goToAgentRegister()" color="medium" class="ion-text-center">
               <p>Not yet registered? Click here</p>
             </ion-text>
           
@@ -67,7 +67,7 @@
 
   <ion-grid fixed [hidden]="!isCompanySelected">
     <ion-row>
-      <ion-col  sizeSm="12" sizeMd="12" sizeXs="11" sizeLg="6" offsetLg="3">
+      <ion-col  sizeSm="12" sizeMd="12" sizeXs="12" sizeLg="6" offsetLg="3">
         <ion-card>
           <ion-card-header>
             <ion-card-subtitle>Welcome Company!</ion-card-subtitle>
@@ -76,11 +76,11 @@
           <ion-card-content>
             <ion-input [(ngModel)]="email" type="email" placeholder="Email"></ion-input>
             <ion-input [(ngModel)]="password" type="text" placeholder="Password"></ion-input>
-            <ion-button (click)="onLogin()" expand="block">
+            <ion-button size="large" mode="ios"  (click)="onLogin()" expand="block">
               Login
             </ion-button>
 
-            <ion-text (click)="goToCompanyRegister()" color="medium" class="ion-text-center">
+            <ion-text class="ion-margin-top" (click)="goToCompanyRegister()" color="medium" class="ion-text-center">
               <p>Not yet registered? Click here</p>
             </ion-text>
    

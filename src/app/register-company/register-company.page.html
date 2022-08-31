@@ -1,6 +1,9 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-title>Company Registration</ion-title>
+    <ion-button slot="end" fill="clear" color="light" (click)="close()">
+      <ion-icon color="light"  slot="icon-only" name="close"></ion-icon>
+    </ion-button>
   </ion-toolbar>
 </ion-header>
 
@@ -65,7 +68,8 @@
         </ion-item>
 
         <ion-text color="primary">
-          <h1>Pan file upload add it here varsha</h1>
+          <h1>Pan Card</h1>
+          <input type="file" name="file" (change)="uploadPan($event)" id="">
         </ion-text>
        
         <ion-button block color="primary" type="submit" [disabled]="companyRegistrationForm.invalid">

@@ -6,6 +6,8 @@ import { ToastController, ModalController, LoadingController, AlertController } 
 import { DataService } from '../services/data.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import {Howl, Howler} from 'howler';
+
 
 @Component({
   selector: 'app-folder',
@@ -15,7 +17,9 @@ import { map } from 'rxjs/operators';
 export class FolderPage implements OnInit {
   public userid: string;
   partnerId;
-
+   sound = new Howl({
+      src: ['assets/notify.mp3']
+    });
 
   isCompletedSegment: boolean = false;
   segmentName: string = 'live';
@@ -38,9 +42,12 @@ export class FolderPage implements OnInit {
               private auth: AngularFireAuth,
               private afs: AngularFirestore,
               private data: DataService) { 
-                this.OrderCollection = this.afs.collection<any>('Orders', ref => ref.where('status', '==',this.segmentName));
-                this.orders = this.OrderCollection.valueChanges();
-               
+                this.OrderCollection = this.afs.collection<any>('Orders', ref => ref.where('status', '==','live'));
+                this.orders = this.OrderCollection.valueChanges(['added']);
+                this.OrderCollection.valueChanges(['added']).subscribe((data) =>{
+                this.sound.play();
+
+                })
               }
 
    async ngOnInit() {
@@ -60,10 +67,15 @@ export class FolderPage implements OnInit {
     if(ev.detail.value === "enq"){
       this.isCompletedSegment = false;
       this.segmentName = 'live';
+      this.OrderCollection = this.afs.collection<any>('Orders', ref => ref.where('status', '==','live'));
+                this.orders = this.OrderCollection.valueChanges();
+      
     }
     else if(ev.detail.value === "cenq"){
       this.isCompletedSegment = true;
       this.segmentName = 'pending';
+      this.OrderCollection = this.afs.collection<any>('Orders', ref => ref.where('status', '==','pending'));
+                this.orders = this.OrderCollection.valueChanges();
 
     }
 

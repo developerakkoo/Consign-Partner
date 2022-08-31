@@ -102,10 +102,14 @@ export class AuthPage implements OnInit {
     component: RegisterVehicleownerPage,
     backdropDismiss: true,
     canDismiss: true,
+    
     componentProps: { value: 123 }
     });
   
     await modal.present();
+    const { data, role } = await modal.onWillDismiss();
+
+    
   
   }
   async presentCompanyModal() {
