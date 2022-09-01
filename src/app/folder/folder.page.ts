@@ -22,7 +22,7 @@ export class FolderPage implements OnInit {
     });
 
   isCompletedSegment: boolean = false;
-  segmentName: string = 'live';
+  segmentName: string = 'blue';
 
   orders: Observable<any>;
   OrderCollection: AngularFirestoreCollection<any>;
@@ -42,7 +42,7 @@ export class FolderPage implements OnInit {
               private auth: AngularFireAuth,
               private afs: AngularFirestore,
               private data: DataService) { 
-                this.OrderCollection = this.afs.collection<any>('Orders', ref => ref.where('status', '==','live'));
+                this.OrderCollection = this.afs.collection<any>('Orders', ref => ref.where('status', '==',this.segmentName));
                 this.orders = this.OrderCollection.valueChanges(['added']);
                 this.OrderCollection.valueChanges(['added']).subscribe((data) =>{
                 this.sound.play();
@@ -66,15 +66,15 @@ export class FolderPage implements OnInit {
   segmentChanged(ev){
     if(ev.detail.value === "enq"){
       this.isCompletedSegment = false;
-      this.segmentName = 'live';
-      this.OrderCollection = this.afs.collection<any>('Orders', ref => ref.where('status', '==','live'));
+      this.segmentName = 'blue';
+      this.OrderCollection = this.afs.collection<any>('Orders', ref => ref.where('status', '==','blue'));
                 this.orders = this.OrderCollection.valueChanges();
       
     }
     else if(ev.detail.value === "cenq"){
       this.isCompletedSegment = true;
-      this.segmentName = 'pending';
-      this.OrderCollection = this.afs.collection<any>('Orders', ref => ref.where('status', '==','pending'));
+      this.segmentName = 'green';
+      this.OrderCollection = this.afs.collection<any>('Orders', ref => ref.where('status', '==','green'));
                 this.orders = this.OrderCollection.valueChanges();
 
     }
@@ -83,8 +83,14 @@ export class FolderPage implements OnInit {
 
   onOpenDetailPage(id, value){
     console.log(id);
-    
-    this.router.navigate(['enquiry', id, value]);
+    if(value == true){
+      this.router.navigate(['approved', id]);
+
+    }
+    else if(value == false){
+
+      this.router.navigate(['enquiry', id, value]);
+    }
   }
 
 }

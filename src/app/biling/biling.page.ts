@@ -45,12 +45,12 @@ export class BilingPage implements OnInit {
       await loading.present()
     this.oderid = this.activatedRoute.snapshot.paramMap.get("id");
       this.userid = await this.data.get("userid");
-                this.completedOrderRef = this.afs.doc(`completedOrder/${this.oderid}`);
+                this.completedOrderRef = this.afs.doc(`Orders/${this.oderid}`);
                 this.completedOrderRef.valueChanges().subscribe(async(data) => {
                   console.log(data);
-                  this.total = data['freightCharges'];
+                  this.total = data['Freight'];
                   this.startTime = data['time'];
-                  this.helper = data['advance'];
+                  this.helper = data['helper'];
                   this.packing = data['cancel'];
                   await loading.dismiss();
                 },async(error) =>{

@@ -69,16 +69,8 @@ export class ApprovedPage implements OnInit {
     this.isAcceptedQuoteOrder = this.route.snapshot.paramMap.get("value");
     console.log(`OrderId ${this.orderid}`);
     console.log(`APrtner Id ${this.partnerId}`);
-    this.completedOrderRef = this.afs.collection(`completedOrder`);
     this.OrderRef = this.afs.doc(`Orders/${this.orderid}`);
-    this.quoteCollection = this.afs.collection('Quote', ref => ref.where('orderId', '==', this.orderid));
-    this.quoteCollection.valueChanges().subscribe((quote) =>{
-      console.log("Quote for orderid");
-      
-      console.log(quote);
-      this.quoteData = quote;
-      
-    })
+    
     
 
     let loading = await this.loadingController.create({
@@ -100,9 +92,11 @@ export class ApprovedPage implements OnInit {
         this.userid = order['userId'];
         this.startOtp = order['startOTP'];
         this.stopOtp = order['stopOTP'];
-        this.vehicleNo = order['vehicleNo'];
-        this.driverNo = order['driverNo'];
+        this.vehicleNo = order['vehNo'];
+        this.driverNo = order['DriverMobileNo'];
         this.conNo = order['conNo'];
+        // this.startOTPInput = order['startOTP'];
+        // this.stopOTPInput = order['stopOTP'];
         await loading.dismiss();
 
       }, async (error) => {
@@ -112,15 +106,25 @@ export class ApprovedPage implements OnInit {
       })
   }
 
-  approveDetails() {
-    this.OrderRef.update({
-      vehicleNo: this.vehicleNo,
-      conNo: this.conNo,
-      driverNo: this.driverNo
-    }).then((success) => {
+  async approveDetails() {
+    let loading = await this.loadingController.create({
+      message: "Submitting order Details..."
+    })
 
-    }).catch((error) => {
+    await loading.present();
+    this.OrderRef.update({
+      VehNo: this.vehicleNo,
+      conNo: this.conNo,
+      DriverMobileNo: this.driverNo,
+      message: "SP Submitted Vehicle And Driver Details.",
+      serviceProviderId: this.partnerId,
+      status: "aqua"
+    }).then(async (success) => {
+      await loading.dismiss();
+
+    }).catch(async (error) => {
       console.log(error);
+      await loading.dismiss();
 
     })
 
@@ -175,15 +179,29 @@ export class ApprovedPage implements OnInit {
           }
         }, {
           text: 'Okay',
-          handler: () => {
-           let obj = {
-            ...this.quoteData[0],
-            ...this.orderData
-           }
-
-
-           console.log(obj);
+          handler:async () => {
+            let loading = await this.loadingController.create({
+              message: "Starting your Order..."
+            })
+        
            
+             await loading.present();
+           this.OrderRef.update({
+            message: "Start OTP Entered By SP Success.",
+            
+           }).then(async (success) => {
+             
+            await loading.dismiss();
+            this.presentAlertStarted("Order Successfully started.")
+             
+            // this.router.navigate(['biling', this.orderid]);
+            
+         }).catch(async(error) => {
+           console.log(error);
+           await loading.dismiss();
+
+     
+         })
           }
         }
       ]
@@ -208,27 +226,22 @@ export class ApprovedPage implements OnInit {
           text: 'Okay',
           handler: async () => {
             let loading = await this.loadingController.create({
-              message: "Fetching order Details..."
+              message: "Generating Order Bill Details..."
             })
         
-            let obj = {
-              ...this.quoteData[0],
-              ...this.orderData,
-              endTime: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
-            };
-             console.log(obj);
+           
+             await loading.present();
              this.OrderRef.update({
-             status: 'completed'
-            }).then((success) => {
-              let id = this.afs.createId();
-              this.completedOrderRef.doc(id).set(obj).then(async(success) =>{
+             status: 'red',
+             isCompleted: true,
+             endTime: "",
+             message: "Stop Otp entered by SP Success."
+            }).then(async (success) => {
+             
                await loading.dismiss();
                 
-               this.router.navigate(['biling', id]);
-               }).catch(async(error) =>{
-                 await loading.dismiss();
-                 
-              })
+               this.router.navigate(['biling', this.orderid]);
+               
             }).catch(async(error) => {
               console.log(error);
               await loading.dismiss();
@@ -241,6 +254,16 @@ export class ApprovedPage implements OnInit {
       ]
     });
 
+    await alert.present();
+  }
+
+  async presentAlertStarted(msg) {
+    const alert = await this.alertController.create({
+      header: 'Order Started',
+      message: msg,
+      buttons: ['OK']
+    });
+  
     await alert.present();
   }
 }

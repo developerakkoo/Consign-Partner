@@ -125,36 +125,34 @@ export class EnquiryPage implements OnInit {
 
   async onSubmit(){
     let loading = await this.loadingController.create({
-      message: "Fetching order Details..."
+      message: "Submitting your quote..."
     })
 
     await loading.present();
-    let obj = {
-      orderId : this.orderid,
-      userId: this.userid,
-      partnerId:this.partnerId,
-      status: 'live',
-      companyname: this.partnerName,
-      vehicleNo:this.quoteForm.value.vehicleNo,
-      driverMobile: this.quoteForm.value.driverMobile,
-      advance: this.quoteForm.value.advance,
+    
+    this.OrderRef.update({
+      status: 'yellow',
+      message: "Quote Submitted By Service Provider",
       helper: this.quoteForm.value.helper,
-      packing: this.quoteForm.value.packing,
-      paymentMode: this.quoteForm.value.payment,
+      package: this.quoteForm.value.packing,
+      payment: this.quoteForm.value.payment,
       waiting: this.quoteForm.value.waiting,
       cancel: this.quoteForm.value.cancel,
-      freightCharges: this.quoteForm.value.freightCharges
-    }
-    console.log(obj);
-    let id = this.afs.createId();
-    this.quoteCollection.doc(id).set(obj).then(async (data) =>{
+      companyname: this.partnerName,
+      vehNo:this.quoteForm.value.vehicleNo,
+      DriverMobileNo: this.quoteForm.value.driverMobile,
+      adv: this.quoteForm.value.advance,
+      Freight: this.quoteForm.value.freightCharges
+
+
+    }).then(async (order) =>{
       await loading.dismiss();
-    }).catch(async(error) =>{
-      console.log(error);
+      this.router.navigate(['folder']);
+    }).catch(async (error) =>{
       await loading.dismiss();
 
-      
     })
+  
     // this.router.navigate(['approved']);
 
   }

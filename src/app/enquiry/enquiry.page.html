@@ -3,12 +3,9 @@
     <ion-title>Enquiry Details</ion-title>
     <ion-button *ngIf="isAcceptedQuoteOrder == 'true'" slot="end" color="success" (click)="accept()">
       <ion-icon slot="start" name="checkmark"></ion-icon>
-      Accept
+      Confirm
     </ion-button>
-    <ion-button *ngIf="isAcceptedQuoteOrder == 'true'" slot="end" color="danger" (click)="reject()">
-      <ion-icon slot="start" name="remove"></ion-icon>
-      Reject
-    </ion-button>
+ 
   </ion-toolbar>
 </ion-header>
 
