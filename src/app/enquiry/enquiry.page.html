@@ -49,14 +49,14 @@
         <h1>Create quote for order</h1>
       </ion-text>
       <form [formGroup]="quoteForm" (ngSubmit)="onSubmit()">
-        <ion-item>
+        <!-- <ion-item>
           <ion-label position="floating">Vehicle No <ion-text color="danger">*</ion-text></ion-label>
           <ion-input required formControlName="vehicleNo" type="text"></ion-input>
         </ion-item>
         <ion-item>
           <ion-label position="floating">Driver Mobile <ion-text color="danger">*</ion-text></ion-label>
           <ion-input required formControlName="driverMobile" type="text"></ion-input>
-        </ion-item>
+        </ion-item> -->
 
         <ion-item>
           <ion-label position="floating">Freight Charges <ion-text color="danger">*</ion-text></ion-label>
@@ -67,12 +67,12 @@
           <ion-input required formControlName="advance" type="text"></ion-input>
         </ion-item>
 
-        <ion-item>
+        <ion-item *ngIf="isHelper">
           <ion-label position="floating">Helper Charges <ion-text color="danger">*</ion-text></ion-label>
           <ion-input required formControlName="helper" type="text"></ion-input>
         </ion-item>
 
-        <ion-item>
+        <ion-item *ngIf="isPacking">
           <ion-label position="floating">Packing Charges <ion-text color="danger">*</ion-text></ion-label>
           <ion-input required formControlName="packing" type="text"></ion-input>
         </ion-item>

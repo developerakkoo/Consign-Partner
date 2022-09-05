@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { LoadingController, AlertController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { DataService } from '../services/data.service';
+import {Howl, Howler} from 'howler';
 
 @Component({
   selector: 'app-approved',
@@ -18,7 +19,9 @@ export class ApprovedPage implements OnInit {
   vehicleNo;
   driverNo;
   conNo;
-
+  sound = new Howl({
+    src: ['assets/ordersuccess1.wav']
+  });
 
   quoteData;
   orderData;
@@ -239,7 +242,7 @@ export class ApprovedPage implements OnInit {
             }).then(async (success) => {
              
                await loading.dismiss();
-                
+                this.sound.play();
                this.router.navigate(['biling', this.orderid]);
                
             }).catch(async(error) => {

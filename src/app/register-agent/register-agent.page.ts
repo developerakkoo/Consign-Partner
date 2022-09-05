@@ -45,7 +45,8 @@ export class RegisterAgentPage implements OnInit {
       surname:['', Validators.required],
       flatNo: ['', [Validators.required]],
       apartmentAddress:['', [Validators.required, Validators.minLength(8)]],
-      officeAddress:['',[Validators.required]]
+      officeAddress:['',[Validators.required]],
+      GST: ['', [Validators.minLength(15)]],
 
 
     })

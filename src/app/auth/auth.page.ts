@@ -17,6 +17,7 @@ export class AuthPage implements OnInit {
   email: string;
   password: string;
 
+  type: string = "vehicle";
 
   isAgentSelected: boolean= false;
   isCompanySelected: boolean = false;
@@ -52,7 +53,7 @@ export class AuthPage implements OnInit {
     this.auth.signInWithEmailAndPassword(this.email, this.password)
     .then(async (user) =>{
       await this.data.set("userid", user.user.uid);
-      await this.data.set('usertype', this.isVehicleOwnerSelected);
+      await this.data.set('usertype', this.type);
       await loading.dismiss();
       this.router.navigate(['folder']);
 
@@ -67,14 +68,14 @@ export class AuthPage implements OnInit {
   segmentChanged(ev: any) {
     console.log('Segment changed', ev.detail.value);
     if(ev.detail.value === "agent"){
-
+      this.type = "agent";
       this.isAgentSelected = true; 
       this.isCompanySelected = false;
       this.isVehicleOwnerSelected = false;
 
     }
     if(ev.detail.value === "company"){
-
+      this.type = "company";
       this.isAgentSelected = false; 
       this.isCompanySelected = true;
       this.isVehicleOwnerSelected = false;
@@ -82,6 +83,7 @@ export class AuthPage implements OnInit {
 
     if(ev.detail.value === "vehicle"){
 
+      this.type = "vehicle";
       this.isAgentSelected = false; 
       this.isCompanySelected = false;
       this.isVehicleOwnerSelected = true;

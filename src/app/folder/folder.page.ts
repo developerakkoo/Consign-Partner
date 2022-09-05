@@ -1,4 +1,4 @@
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -22,15 +22,16 @@ export class FolderPage implements OnInit {
     });
 
   isCompletedSegment: boolean = false;
-  segmentName: string = 'blue';
+  segmentName: string = 'pending';
 
   orders: Observable<any>;
   OrderCollection: AngularFirestoreCollection<any>;
+  partnerCollection: AngularFirestoreDocument<any>;
 
   pendingOrders: Observable<any>;
   pendingOrderCollection: AngularFirestoreCollection<any>;
 
-
+    vehicleType;
 
 
   constructor(private activatedRoute: ActivatedRoute,
@@ -42,39 +43,40 @@ export class FolderPage implements OnInit {
               private auth: AngularFireAuth,
               private afs: AngularFirestore,
               private data: DataService) { 
-                this.OrderCollection = this.afs.collection<any>('Orders', ref => ref.where('status', '==',this.segmentName));
-                this.orders = this.OrderCollection.valueChanges(['added']);
-                this.OrderCollection.valueChanges(['added']).subscribe((data) =>{
-                this.sound.play();
-
-                })
+                
               }
 
    async ngOnInit() {
     this.partnerId = await this.data.get('userid');
-    this.pendingOrderCollection = this.afs.collection<any>('AcceptedQuote', ref => ref.where('partnerId', '==', this.partnerId));
-    this.pendingOrders = this.pendingOrderCollection.snapshotChanges().pipe(
-      map(actions => actions.map(a => {
-        const data = a.payload.doc.data();
-        const id = a.payload.doc.id;
-        return { id, ...data };
-      }))
-    );
+    this.partnerCollection = this.afs.doc<any>(`VehicleOwner/${this.partnerId}`);
+    this.partnerCollection.valueChanges().subscribe((partner) =>{
+      this.vehicleType = partner['vehicleType'];
+      console.log(this.vehicleType);
+      this.OrderCollection = this.afs.collection<any>('Orders', ref => ref.where('status', '==',this.segmentName).where('vehicleType', '==', this.vehicleType));
+                this.orders = this.OrderCollection.valueChanges(['added']);
+      
+    })
+                
+                this.OrderCollection.valueChanges(['added']).subscribe((data) =>{
+                this.sound.play();
+
+                })
+    
 
   }
 
   segmentChanged(ev){
     if(ev.detail.value === "enq"){
       this.isCompletedSegment = false;
-      this.segmentName = 'blue';
-      this.OrderCollection = this.afs.collection<any>('Orders', ref => ref.where('status', '==','blue'));
+      this.segmentName = 'pending';
+      this.OrderCollection = this.afs.collection<any>('Orders', ref => ref.where('status', '==',this.segmentName).where('vehicleType', '==', this.vehicleType));
                 this.orders = this.OrderCollection.valueChanges();
       
     }
     else if(ev.detail.value === "cenq"){
       this.isCompletedSegment = true;
       this.segmentName = 'green';
-      this.OrderCollection = this.afs.collection<any>('Orders', ref => ref.where('status', '==','green'));
+      this.OrderCollection = this.afs.collection<any>('Orders', ref => ref.where('status', '==',this.segmentName).where('vehicleType', '==', this.vehicleType));
                 this.orders = this.OrderCollection.valueChanges();
 
     }

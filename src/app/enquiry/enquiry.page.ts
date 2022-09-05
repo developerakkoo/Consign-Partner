@@ -48,12 +48,12 @@ export class EnquiryPage implements OnInit {
                
                 
     this.quoteForm = this.fb.group({
-      vehicleNo: ['', [Validators.required]],
-      driverMobile: ['', [Validators.required]],
+      // vehicleNo: ['', [Validators.required]],
+      // driverMobile: ['', [Validators.required]],
       freightCharges: ['', [Validators.required]],
       advance:['', [Validators.required]],
-      helper:['', [Validators.required]],
-      packing: ['', [Validators.required]],
+      helper:[''],
+      packing: [''],
       waiting: ['', [Validators.required]],
       payment:['', [Validators.required]],
       cancel:['', [Validators.required]]
@@ -91,8 +91,8 @@ export class EnquiryPage implements OnInit {
       this.time = order['time'];
       this.sender = order['sender'];
       this.receiver = order['receiver'];
-      this.isHelper = order['helper'];
-      this.isPacking = order['packing'];
+      this.isHelper = order['ishelper'];
+      this.isPacking = order['ispacking'];
       this.userid = order['userId'];
       await loading.dismiss();
       
@@ -103,25 +103,7 @@ export class EnquiryPage implements OnInit {
     })
   }
 
-  accept(){
-    console.log("OrderAccepted");
-    this.OrderRef.update({
-      status: 'ongoing'
-    }).then((success) =>{
-      console.log(success);
-      this.router.navigate(['approved', this.orderid]);
-    }).catch((error) =>{
-      console.log(error);
-      
-    })
-    
-  }
-
-  reject(){
-    console.log("Order Rejected");
-    
-
-  }
+ 
 
   async onSubmit(){
     let loading = await this.loadingController.create({
@@ -133,14 +115,13 @@ export class EnquiryPage implements OnInit {
     this.OrderRef.update({
       status: 'yellow',
       message: "Quote Submitted By Service Provider",
-      helper: this.quoteForm.value.helper,
-      package: this.quoteForm.value.packing,
+      helper: this.quoteForm.value.helper || "",
+      package: this.quoteForm.value.packing || "",
       payment: this.quoteForm.value.payment,
       waiting: this.quoteForm.value.waiting,
       cancel: this.quoteForm.value.cancel,
       companyname: this.partnerName,
-      vehNo:this.quoteForm.value.vehicleNo,
-      DriverMobileNo: this.quoteForm.value.driverMobile,
+     
       adv: this.quoteForm.value.advance,
       Freight: this.quoteForm.value.freightCharges
 
