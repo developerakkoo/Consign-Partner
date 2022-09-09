@@ -49,14 +49,16 @@
         </ion-card-header>
         <ion-card-content>
           <ion-label>
-            <strong>Pick up: </strong><span class="ion-padding-start" >Pune Katraj Lane 1</span><br>
-            <strong>Helper: </strong><span class="ion-padding-start" >YES</span><br>
-            <strong>Packing: </strong><span color="danger" class="ion-padding-start" >No</span><br>
-            <strong>Dispatch: </strong><span class="ion-padding-start" >Today 1:30 pm</span>
+            <strong>Pick up: </strong><span class="ion-padding-start" > {{sender?.Address}} </span><br>
+            <strong >Packing: </strong><span  color="success"  class="ion-padding-start" >{{isPacking ? 'YES' : 'NO'}}</span><br>
+
+            <strong >Helper: </strong><span color="success" class="ion-padding-start" >{{isHelper ? 'YES' : 'NO'}}</span><br>
+            
+            <strong>Dispatch: </strong><span class="ion-padding-start" >{{date | date}} - {{time}}</span>
           </ion-label>
           <br>
           <ion-label>
-            <strong>Drop: </strong><span class="ion-padding-start" >Banglore Lane 1</span>
+            <strong>Drop: </strong><span class="ion-padding-start" > {{receiver?.Address}} </span>
           </ion-label>
           <br><br>
           

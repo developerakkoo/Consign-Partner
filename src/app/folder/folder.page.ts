@@ -52,7 +52,8 @@ export class FolderPage implements OnInit {
     this.partnerCollection.valueChanges().subscribe((partner) =>{
       this.vehicleType = partner['vehicleType'];
       console.log(this.vehicleType);
-      this.OrderCollection = this.afs.collection<any>('Orders', ref => ref.where('status', '==',this.segmentName).where('vehicleType', '==', this.vehicleType));
+      // .where('vehicleType', '==', this.vehicleType)
+      this.OrderCollection = this.afs.collection<any>('Orders', ref => ref.where('status', '==',this.segmentName));
                 this.orders = this.OrderCollection.valueChanges(['added']);
       
     })
@@ -69,14 +70,14 @@ export class FolderPage implements OnInit {
     if(ev.detail.value === "enq"){
       this.isCompletedSegment = false;
       this.segmentName = 'pending';
-      this.OrderCollection = this.afs.collection<any>('Orders', ref => ref.where('status', '==',this.segmentName).where('vehicleType', '==', this.vehicleType));
+      this.OrderCollection = this.afs.collection<any>('Orders', ref => ref.where('status', '==',this.segmentName));
                 this.orders = this.OrderCollection.valueChanges();
       
     }
     else if(ev.detail.value === "cenq"){
       this.isCompletedSegment = true;
       this.segmentName = 'green';
-      this.OrderCollection = this.afs.collection<any>('Orders', ref => ref.where('status', '==',this.segmentName).where('vehicleType', '==', this.vehicleType));
+      this.OrderCollection = this.afs.collection<any>('Orders', ref => ref.where('status', '==',this.segmentName));
                 this.orders = this.OrderCollection.valueChanges();
 
     }

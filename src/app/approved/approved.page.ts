@@ -15,6 +15,8 @@ export class ApprovedPage implements OnInit {
 
   partnerId;
   partnerName;
+  partnerType;
+
 
   vehicleNo;
   driverNo;
@@ -67,6 +69,7 @@ export class ApprovedPage implements OnInit {
     private route: ActivatedRoute) { }
 
   async ngOnInit() {
+    this.partnerType = await this.data.get("type");
     this.partnerId = await this.data.get('userid');
     this.orderid = this.route.snapshot.paramMap.get("orderid");
     this.isAcceptedQuoteOrder = this.route.snapshot.paramMap.get("value");
@@ -119,7 +122,7 @@ export class ApprovedPage implements OnInit {
       VehNo: this.vehicleNo,
       conNo: this.conNo,
       DriverMobileNo: this.driverNo,
-      message: "SP Submitted Vehicle And Driver Details.",
+      message: "Note Vehicle number and driver details.",
       serviceProviderId: this.partnerId,
       status: "aqua"
     }).then(async (success) => {

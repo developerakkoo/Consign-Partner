@@ -14,6 +14,7 @@ import { Component, OnInit } from '@angular/core';
 export class EnquiryPage implements OnInit {
   partnerId;
   partnerName;
+  partnerType;
 
 
 
@@ -61,6 +62,7 @@ export class EnquiryPage implements OnInit {
    }
 
   async ngOnInit() {
+    this.partnerType = await this.data.get("usertype");
     this.partnerId = await this.data.get('userid');
     this.orderid = this.route.snapshot.paramMap.get("orderId");
     this.isAcceptedQuoteOrder = this.route.snapshot.paramMap.get("value");
@@ -69,13 +71,36 @@ export class EnquiryPage implements OnInit {
     this.OrderRef  = this.afs.doc(`Orders/${this.orderid}`);
     this.quoteCollection = this.afs.collection('Quote');
 
-    this.partnerRef = this.afs.doc(`VehicleOwner/${this.partnerId}`);
+    console.log(`PArtner type is ${this.partnerType}`);
+    
+    if(this.partnerType == "agent"){
+      this.partnerRef = this.afs.doc(`Agent/${this.partnerId}`);
     this.partnerRef.valueChanges().subscribe((data) =>
     {
       console.log(data);
       this.partnerName = data['name'];
       
     })
+    }
+    if(this.partnerType == "vehicle"){
+      this.partnerRef = this.afs.doc(`VehicleOwner/${this.partnerId}`);
+    this.partnerRef.valueChanges().subscribe((data) =>
+    {
+      console.log(data);
+      this.partnerName = data['name'];
+      
+    })
+    }
+
+    if(this.partnerType == "company"){
+      this.partnerRef = this.afs.doc(`Company/${this.partnerId}`);
+    this.partnerRef.valueChanges().subscribe((data) =>
+    {
+      console.log(data);
+      this.partnerName = data['name'];
+      
+    })
+    }
    
     let loading = await this.loadingController.create({
       message: "Fetching order Details..."
@@ -114,7 +139,7 @@ export class EnquiryPage implements OnInit {
     
     this.OrderRef.update({
       status: 'yellow',
-      message: "Quote Submitted By Service Provider",
+      message: "Order submitted by service provider",
       helper: this.quoteForm.value.helper || "",
       package: this.quoteForm.value.packing || "",
       payment: this.quoteForm.value.payment,

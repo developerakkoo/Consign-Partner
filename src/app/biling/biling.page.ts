@@ -19,7 +19,8 @@ export class BilingPage implements OnInit {
   helper;
   packing;
   fare;
-
+  sender;
+  receiver;
   km;
   startTime;
   endTime;
@@ -52,6 +53,8 @@ export class BilingPage implements OnInit {
                   this.startTime = data['time'];
                   this.helper = data['helper'];
                   this.packing = data['cancel'];
+                  this.sender = data['sender'];
+                  this.receiver = data['receiver'];
                   await loading.dismiss();
                 },async(error) =>{
                   await loading.dismiss();
