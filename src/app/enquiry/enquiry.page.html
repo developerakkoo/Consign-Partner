@@ -12,7 +12,7 @@
 <ion-content>
   
   <ion-text class="ion-text-center" color="primary">
-    <h1>Goods Images</h1>
+    <h1>IMAGES</h1>
   </ion-text>
   <div style="display:flex; justify-content:center; flex-direction:row; flex-wrap: wrap; margin:10px;">
     <img *ngFor="let img of images" style="height:200px; width: 200px;" [src]="img" alt="" srcset="">
@@ -30,7 +30,7 @@
         </ion-card-header>
         <ion-card-content>
           <ion-label>
-            <strong>Pick up: </strong><span class="ion-padding-start" > {{sender?.Address}} </span><br>
+            <strong>Pick up: </strong><span class="ion-padding-start" > {{sender?.Address | uppercase}} </span><br>
             <strong >Packing: </strong><span  color="success"  class="ion-padding-start" >{{isPacking ? 'YES' : 'NO'}}</span><br>
 
             <strong >Helper: </strong><span color="success" class="ion-padding-start" >{{isHelper ? 'YES' : 'NO'}}</span><br>
@@ -39,7 +39,7 @@
           </ion-label>
           <br>
           <ion-label>
-            <strong>Drop: </strong><span class="ion-padding-start" > {{receiver?.Address}} </span>
+            <strong>Drop: </strong><span class="ion-padding-start" > {{receiver?.Address | uppercase}} </span>
           </ion-label>
         </ion-card-content>
       </ion-card>

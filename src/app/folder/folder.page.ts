@@ -22,7 +22,7 @@ export class FolderPage implements OnInit {
     });
 
   isCompletedSegment: boolean = false;
-  segmentName: string = 'pending';
+  segmentName: string = 'blue';
 
   orders: Observable<any>;
   OrderCollection: AngularFirestoreCollection<any>;
@@ -69,7 +69,7 @@ export class FolderPage implements OnInit {
   segmentChanged(ev){
     if(ev.detail.value === "enq"){
       this.isCompletedSegment = false;
-      this.segmentName = 'pending';
+      this.segmentName = 'blue';
       this.OrderCollection = this.afs.collection<any>('Orders', ref => ref.where('status', '==',this.segmentName));
                 this.orders = this.OrderCollection.valueChanges();
       
