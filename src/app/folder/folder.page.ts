@@ -49,20 +49,29 @@ export class FolderPage implements OnInit {
    async ngOnInit() {
     this.partnerId = await this.data.get('userid');
     this.partnerCollection = this.afs.doc<any>(`VehicleOwner/${this.partnerId}`);
-    this.partnerCollection.valueChanges().subscribe((partner) =>{
-      this.vehicleType = partner['vehicleType'];
-      console.log(this.vehicleType);
-      // .where('vehicleType', '==', this.vehicleType)
-      this.OrderCollection = this.afs.collection<any>('Orders', ref => ref.where('status', '==',this.segmentName));
-                this.orders = this.OrderCollection.valueChanges(['added']);
-      
-    })
-                
-                this.OrderCollection.valueChanges(['added']).subscribe((data) =>{
-                this.sound.play();
+    // this.partnerCollection.valueChanges().subscribe((partner) =>{
+    //   this.vehicleType = partner['vehicleType'];
+    //   console.log(this.vehicleType);
+    //   // .where('vehicleType', '==', this.vehicleType)
+  
 
-                })
+      
+    // })
+        
     
+    this.OrderCollection = this.afs.collection('Orders', ref => ref.where('status', '==', this.segmentName));
+     
+               this.orders =  this.OrderCollection.snapshotChanges(['added','modified', 'removed']).pipe(
+   
+                  map(actions => actions.map(a => {
+                    const data = a.payload.doc.data();
+                    const id = a.payload.doc.id;
+                    this.sound.play();
+                    console.log("Playsound!");
+                    
+                    return { id, ...data };
+                  }))
+                );
 
   }
 
@@ -81,6 +90,13 @@ export class FolderPage implements OnInit {
                 this.orders = this.OrderCollection.valueChanges();
 
     }
+    else if(ev.detail.value === "completed"){
+      this.isCompletedSegment = true;
+      this.segmentName = 'red';
+      this.OrderCollection = this.afs.collection<any>('Orders', ref => ref.where('status', '==',this.segmentName));
+                this.orders = this.OrderCollection.valueChanges();
+
+    }
 
   }
 
@@ -94,6 +110,7 @@ export class FolderPage implements OnInit {
 
       this.router.navigate(['enquiry', id, value]);
     }
+    
   }
 
 }

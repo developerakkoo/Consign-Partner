@@ -16,6 +16,9 @@
           <ion-segment-button value="cenq">
             <ion-label>Approved Enquiries</ion-label>
           </ion-segment-button>
+          <ion-segment-button value="completed">
+            <ion-label>Completed Orders</ion-label>
+          </ion-segment-button>
         </ion-segment>
       </ion-col>
       <ion-col sizeLg="8" offsetLg="2" sizeMd="12" sizeSm="12" sizeXs="12">
@@ -35,9 +38,7 @@
         </ion-list>
 
         <ion-list *ngIf="isCompletedSegment">
-          <ion-list-header>
-            <ion-label>All Pending Enquiris</ion-label>
-          </ion-list-header>
+          
 
           <ion-item *ngFor="let order of orders |async" (click)="onOpenDetailPage(order.orderId, true)" detail>
             <ion-label>

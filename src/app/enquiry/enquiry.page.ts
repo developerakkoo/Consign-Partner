@@ -27,6 +27,7 @@ export class EnquiryPage implements OnInit {
   partnerRef: AngularFirestoreDocument<any>;
   partner: Observable<any>;
 
+  isVehicleAuto;
   images: any[] = [];
   date: string;
   time:string;
@@ -119,6 +120,7 @@ export class EnquiryPage implements OnInit {
       this.isHelper = order['ishelper'];
       this.isPacking = order['ispacking'];
       this.userid = order['userId'];
+      this.isVehicleAuto = order['isVehicleAuto'];
       await loading.dismiss();
       
     }, async(error) =>{

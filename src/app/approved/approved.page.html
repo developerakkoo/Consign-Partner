@@ -51,9 +51,11 @@
           <ion-label>
             <strong>Pick up: </strong><span class="ion-padding-start" > {{sender?.Address}} </span><br>
             <strong >Packing: </strong><span  color="success"  class="ion-padding-start" >{{isPacking ? 'YES' : 'NO'}}</span><br>
-
+            <strong>Sender Name: </strong><span color="success" class="ion-padding-start"> {{sender?.FullName | uppercase}} </span><br>
             <strong >Helper: </strong><span color="success" class="ion-padding-start" >{{isHelper ? 'YES' : 'NO'}}</span><br>
             
+            <strong>Receiver Name: </strong><span color="success" class="ion-padding-start"> {{receiver?.FullName | uppercase}} </span><br>
+
             <strong>Dispatch: </strong><span class="ion-padding-start" >{{date | date}} - {{time}}</span>
           </ion-label>
           <br>

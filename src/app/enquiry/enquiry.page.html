@@ -11,10 +11,15 @@
 
 <ion-content>
   
-  <ion-text class="ion-text-center" color="primary">
-    <h1>IMAGES</h1>
+  <ion-text *ngIf="isVehicleAuto" class="ion-text-center" color="primary">
+    <h1  >IMAGES</h1>
+    <h1 *ngIf="!isVehicleAuto" >Order Details</h1>
   </ion-text>
-  <div style="display:flex; justify-content:center; flex-direction:row; flex-wrap: wrap; margin:10px;">
+  <ion-text *ngIf="!isVehicleAuto" class="ion-text-center" color="primary">
+ 
+    <h1 >Order Details</h1>
+  </ion-text>
+  <div *ngIf="isVehicleAuto" style="display:flex; justify-content:center; flex-direction:row; flex-wrap: wrap; margin:10px;">
     <img *ngFor="let img of images" style="height:200px; width: 200px;" [src]="img" alt="" srcset="">
    
   
