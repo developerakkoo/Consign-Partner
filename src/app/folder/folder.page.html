@@ -13,6 +13,9 @@
           <ion-segment-button value="enq">
             <ion-label>Enquiries</ion-label>
           </ion-segment-button>
+          <ion-segment-button value="senq">
+            <ion-label>Submitted Enquiries</ion-label>
+          </ion-segment-button>
           <ion-segment-button value="cenq">
             <ion-label>Approved Enquiries</ion-label>
           </ion-segment-button>
@@ -21,20 +24,49 @@
           </ion-segment-button>
         </ion-segment>
       </ion-col>
+
+
       <ion-col sizeLg="8" offsetLg="2" sizeMd="12" sizeSm="12" sizeXs="12">
-        <ion-list *ngIf="!isCompletedSegment">
+        <ion-list *ngIf="isEnquiriesSegment">
           <ion-list-header>
             <ion-label>All Available Enquiris</ion-label>
           </ion-list-header>
 
           <ion-item *ngFor="let order of orders | async" (click)="onOpenDetailPage(order.orderId, false)" detail>
             <ion-label>
-              <h4>Pick up: {{order.sender?.City | uppercase}} </h4>
-              <h5>Drop: {{order.receiver?.City | uppercase}}</h5>
+              <h4>Pick up:{{order.sender?.Address | uppercase}} {{order.sender?.City | uppercase}} </h4>
+              <h5>Drop:{{order.receiver?.Address | uppercase}}  {{order.receiver?.City | uppercase}}</h5>
               <h5>Dispatch time: {{order?.date | date}} / {{order?.time}} </h5>
             </ion-label>
           </ion-item>
           
+        </ion-list>
+        <ion-list *ngIf="isSubmittedSegment">
+          
+
+          <ion-item *ngFor="let order of orders |async" detail>
+            <ion-label>
+              <h4 >Pick up: {{order.sender?.City | uppercase}} </h4>
+              <h5>Drop: {{order.receiver?.City | uppercase}}</h5>
+              <h5>Dispatch time: {{order?.date | date}} / {{order?.time}} </h5>
+            </ion-label>
+          </ion-item>
+
+  
+        </ion-list>
+
+        <ion-list *ngIf="isApprovedSegment">
+          
+
+          <ion-item *ngFor="let order of orders |async" (click)="onOpenDetailPage(order.orderId, true)" detail>
+            <ion-label>
+              <h4 >Pick up: {{order.sender?.City | uppercase}} </h4>
+              <h5>Drop: {{order.receiver?.City | uppercase}}</h5>
+              <h5>Dispatch time: {{order?.date | date}} / {{order?.time}} </h5>
+            </ion-label>
+          </ion-item>
+
+  
         </ion-list>
 
         <ion-list *ngIf="isCompletedSegment">
@@ -42,7 +74,7 @@
 
           <ion-item *ngFor="let order of orders |async" (click)="onOpenDetailPage(order.orderId, true)" detail>
             <ion-label>
-              <h4>Pick up: {{order.sender?.City | uppercase}} </h4>
+              <h4 >Pick up: {{order.sender?.City | uppercase}} </h4>
               <h5>Drop: {{order.receiver?.City | uppercase}}</h5>
               <h5>Dispatch time: {{order?.date | date}} / {{order?.time}} </h5>
             </ion-label>

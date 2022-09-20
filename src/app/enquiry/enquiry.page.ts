@@ -5,6 +5,7 @@ import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument 
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
+import { threadId } from 'worker_threads';
 
 @Component({
   selector: 'app-enquiry',
@@ -26,6 +27,7 @@ export class EnquiryPage implements OnInit {
 
   partnerRef: AngularFirestoreDocument<any>;
   partner: Observable<any>;
+  vehicleImageUrl;
 
   isVehicleAuto;
   images: any[] = [];
@@ -121,6 +123,8 @@ export class EnquiryPage implements OnInit {
       this.isPacking = order['ispacking'];
       this.userid = order['userId'];
       this.isVehicleAuto = order['isVehicleAuto'];
+      this.vehicleImageUrl = order['vehicleImageUrl'];
+
       await loading.dismiss();
       
     }, async(error) =>{

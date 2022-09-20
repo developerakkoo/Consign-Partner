@@ -26,6 +26,9 @@ export class BilingPage implements OnInit {
   endTime;
   waitingTime;
   
+  ishelper;
+  ispacking;
+  billamount;
   private completedOrderRef: AngularFirestoreDocument<any>;
   completedOrders: Observable<any[]>;
 
@@ -36,6 +39,8 @@ export class BilingPage implements OnInit {
     private afs: AngularFirestore,
     private loadingController: LoadingController,
     private alertController: AlertController) {
+    this.oderid = this.activatedRoute.snapshot.paramMap.get("id");
+
     
      }
 
@@ -44,7 +49,6 @@ export class BilingPage implements OnInit {
         message: 'Fetching Billing Summary...'
       })
       await loading.present()
-    this.oderid = this.activatedRoute.snapshot.paramMap.get("id");
       this.userid = await this.data.get("userid");
                 this.completedOrderRef = this.afs.doc(`Orders/${this.oderid}`);
                 this.completedOrderRef.valueChanges().subscribe(async(data) => {
@@ -55,7 +59,24 @@ export class BilingPage implements OnInit {
                   this.packing = data['cancel'];
                   this.sender = data['sender'];
                   this.receiver = data['receiver'];
+                  this.ishelper = data['ishelper'];
+                  this.ispacking = data['ispacking'];
                   await loading.dismiss();
+                  if(this.ishelper == "true" && this.ispacking == "true"){
+                    console.log("Both packingand helper");
+                    this.billamount = parseInt(this.total) + parseInt(this.helper) + parseInt(this.packing);
+                  }
+                  else if(this.ishelper == "true"){
+                    console.log("Only helper");
+                    this.billamount = parseInt(this.total) + parseInt(this.helper);
+                  }
+                  else if(this.packing == "true"){
+                    console.log("Only packing");
+                    this.billamount = parseInt(this.total) + parseInt(this.packing);
+                  }
+                  else{
+                    this.billamount = this.total;
+                  }
                 },async(error) =>{
                   await loading.dismiss();
                 })
