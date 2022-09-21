@@ -106,7 +106,7 @@ export class FolderPage implements OnInit {
       this.isEnquiriesSegment = false;
       this.isSubmittedSegment =false;
       this.isApprovedSegment = true;
-      this.segmentName = 'aqua';
+      this.segmentName = 'green';
       this.OrderCollection = this.afs.collection<any>('Orders', ref => ref.where('status', '==',this.segmentName));
                 this.orders = this.OrderCollection.valueChanges();
 
