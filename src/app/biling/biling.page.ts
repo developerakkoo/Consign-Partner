@@ -62,15 +62,15 @@ export class BilingPage implements OnInit {
                   this.ishelper = data['ishelper'];
                   this.ispacking = data['ispacking'];
                   await loading.dismiss();
-                  if(this.ishelper == "true" && this.ispacking == "true"){
+                  if(this.ishelper == true && this.ispacking == true){
                     console.log("Both packingand helper");
                     this.billamount = parseInt(this.total) + parseInt(this.helper) + parseInt(this.packing);
                   }
-                  else if(this.ishelper == "true"){
+                  else if(this.ishelper == true){
                     console.log("Only helper");
                     this.billamount = parseInt(this.total) + parseInt(this.helper);
                   }
-                  else if(this.packing == "true"){
+                  else if(this.packing == true){
                     console.log("Only packing");
                     this.billamount = parseInt(this.total) + parseInt(this.packing);
                   }

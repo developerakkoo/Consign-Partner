@@ -11,7 +11,7 @@
       <ion-col sizeLg="8" offsetLg="2" sizeMd="12" sizeSm="12" sizeXs="12">
         <ion-segment value="enq" (ionChange)="segmentChanged($event)">
           <ion-segment-button value="enq">
-            <ion-label>Live</ion-label>
+            <ion-label>Enquiry</ion-label>
           </ion-segment-button>
           <ion-segment-button value="senq">
             <ion-label>Quotations</ion-label>
@@ -32,10 +32,10 @@
             <ion-label>All Available Enquiris</ion-label>
           </ion-list-header>
 
-          <ion-item *ngFor="let order of orders | async" (click)="onOpenDetailPage(order.orderId, false)" detail>
+          <ion-item *ngFor="let order of orders | async"  detail (click)="onOpenDetailPage(order.orderId, false)">
             <ion-label>
-              <h4>Pick up:{{order.sender?.Address | uppercase}} {{order.sender?.City | uppercase}} </h4>
-              <h5>Drop:{{order.receiver?.Address | uppercase}}  {{order.receiver?.City | uppercase}}</h5>
+              <h4>Pick up:{{order.sender?.FlatNo | uppercase}} {{order.sender?.Address | uppercase}} {{order.sender?.City | uppercase}} </h4>
+              <h5>Drop:{{order.receiver?.FlatNo | uppercase}}{{order.receiver?.Address | uppercase}} {{order.receiver?.City | uppercase}}</h5>
               <h5>Dispatch time: {{order?.date | date}} / {{order?.time}} </h5>
             </ion-label>
           </ion-item>
@@ -44,10 +44,10 @@
         <ion-list *ngIf="isSubmittedSegment">
           
 
-          <ion-item *ngFor="let order of orders |async" detail>
+          <ion-item *ngFor="let order of orders |async" detail >
             <ion-label>
-              <h4 >Pick up: {{order.sender?.City | uppercase}} </h4>
-              <h5>Drop: {{order.receiver?.City | uppercase}}</h5>
+              <h4 >Pick up:{{order.sender?.FlatNo | uppercase}} {{order.sender?.Address | uppercase}} {{order.sender?.City | uppercase}} </h4>
+              <h5>Drop: {{order.receiver?.FlatNo | uppercase}} {{order.receiver?.Address | uppercase}} {{order.receiver?.City | uppercase}}</h5>
               <h5>Dispatch time: {{order?.date | date}} / {{order?.time}} </h5>
             </ion-label>
           </ion-item>
@@ -60,8 +60,8 @@
 
           <ion-item *ngFor="let order of orders |async" (click)="onOpenDetailPage(order.orderId, true)" detail>
             <ion-label>
-              <h4 >Pick up: {{order.sender?.City | uppercase}} </h4>
-              <h5>Drop: {{order.receiver?.City | uppercase}}</h5>
+              <h4>Pick up:{{order.sender?.FlatNo | uppercase}} {{order.sender?.Address | uppercase}} {{order.sender?.City | uppercase}} </h4>
+              <h5>Drop:{{order.receiver?.FlatNo | uppercase}} {{order.receiver?.Address | uppercase}} {{order.receiver?.City | uppercase}}</h5>
               <h5>Dispatch time: {{order?.date | date}} / {{order?.time}} </h5>
             </ion-label>
           </ion-item>
@@ -74,8 +74,8 @@
 
           <ion-item *ngFor="let order of orders |async" (click)="onOpenDetailPage(order.orderId, true)" detail>
             <ion-label>
-              <h4 >Pick up: {{order.sender?.City | uppercase}} </h4>
-              <h5>Drop: {{order.receiver?.City | uppercase}}</h5>
+              <h4>Pick up: {{order.sender?.FlatNo | uppercase}} {{order.sender?.Address | uppercase}} {{order.sender?.City | uppercase}} </h4>
+              <h5>Drop:{{order.receiver?.FlatNo | uppercase}} {{order.receiver?.Address | uppercase}} {{order.receiver?.City | uppercase}}</h5>
               <h5>Dispatch time: {{order?.date | date}} / {{order?.time}} </h5>
             </ion-label>
           </ion-item>

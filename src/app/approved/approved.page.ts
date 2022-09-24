@@ -59,6 +59,9 @@ export class ApprovedPage implements OnInit {
   startOTPInput;
   stopOTPInput;
 
+  isVehicleAuto;
+  vehicleImageUrl;
+
   Endtime;
 
 
@@ -105,6 +108,8 @@ export class ApprovedPage implements OnInit {
         this.vehicleNo = order['vehNo'];
         this.driverNo = order['DriverMobileNo'];
         this.conNo = order['conNo'];
+        this.isVehicleAuto = order['isVehicleAuto'];
+        this.vehicleImageUrl = order['vehicleImageUrl'];
         // this.startOTPInput = order['startOTP'];
         // this.stopOTPInput = order['stopOTP'];
         await loading.dismiss();
@@ -128,7 +133,7 @@ export class ApprovedPage implements OnInit {
       DriverMobileNo: this.driverNo,
       message: "Note Vehicle number and driver details.",
       serviceProviderId: this.partnerId,
-      status: "aqua"
+      status: "green"
     }).then(async (success) => {
       await loading.dismiss();
 

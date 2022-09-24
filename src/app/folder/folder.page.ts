@@ -87,7 +87,7 @@ export class FolderPage implements OnInit {
       this.isSubmittedSegment =false;
       this.isApprovedSegment = false;
       this.segmentName = 'blue';
-      this.OrderCollection = this.afs.collection<any>('Orders', ref => ref.where('status', '==',this.segmentName));
+      this.OrderCollection = this.afs.collection<any>('Orders', ref => ref.where('status', '==',this.segmentName).orderBy("createdAt", "desc"));
                 this.orders = this.OrderCollection.valueChanges();
       
     }
@@ -97,7 +97,7 @@ export class FolderPage implements OnInit {
       this.isSubmittedSegment =true;
       this.isApprovedSegment = false;
       this.segmentName = 'yellow';
-      this.OrderCollection = this.afs.collection<any>('Orders', ref => ref.where('status', '==',this.segmentName));
+      this.OrderCollection = this.afs.collection<any>('Orders', ref => ref.where('status', '==',this.segmentName).orderBy("createdAt", "desc"));
                 this.orders = this.OrderCollection.valueChanges();
 
     }
@@ -107,7 +107,7 @@ export class FolderPage implements OnInit {
       this.isSubmittedSegment =false;
       this.isApprovedSegment = true;
       this.segmentName = 'green';
-      this.OrderCollection = this.afs.collection<any>('Orders', ref => ref.where('status', '==',this.segmentName));
+      this.OrderCollection = this.afs.collection<any>('Orders', ref => ref.where('status', '==',this.segmentName).orderBy("createdAt", "desc"));
                 this.orders = this.OrderCollection.valueChanges();
 
     }
@@ -117,7 +117,7 @@ export class FolderPage implements OnInit {
       this.isSubmittedSegment =false;
       this.isApprovedSegment = false;
       this.segmentName = 'red';
-      this.OrderCollection = this.afs.collection<any>('Orders', ref => ref.where('status', '==',this.segmentName));
+      this.OrderCollection = this.afs.collection<any>('Orders', ref => ref.where('status', '==',this.segmentName).orderBy("createdAt", "desc"));
                 this.orders = this.OrderCollection.valueChanges();
 
     }
