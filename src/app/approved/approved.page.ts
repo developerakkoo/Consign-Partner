@@ -21,13 +21,20 @@ export class ApprovedPage implements OnInit {
   vehicleNo;
   driverNo;
   conNo;
-  sound = new Howl({
-    src: ['assets/ordersuccess1.wav','assets/startOTPsound.mp3']
+  successSound = new Howl({
+    src: ['assets/ordersuccess1.wav'],
+    html5: true
+
   });
 
+    startOtpSound = new Howl({
+      src: ['assets/startOTPsound.mp3'],
+      html5: true
+      
+    })
 
-  orderSuccessSound = this.sound.play();
-  startOtpSound = this.sound.play();
+
+
 
   quoteData;
   orderData;
@@ -198,7 +205,7 @@ export class ApprovedPage implements OnInit {
             let loading = await this.loadingController.create({
               message: "Starting your Order..."
             })
-            this.sound.play(this.startOtpSound);
+            this.startOtpSound.play(this.startOtpSound);
 
         
            
@@ -256,7 +263,7 @@ export class ApprovedPage implements OnInit {
             }).then(async (success) => {
              
                await loading.dismiss();
-                this.sound.play();
+                this.successSound.play();
                this.router.navigate(['biling', this.orderid]);
                
             }).catch(async(error) => {

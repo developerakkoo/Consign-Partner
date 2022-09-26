@@ -18,7 +18,25 @@ export class FolderPage implements OnInit {
   public userid: string;
   partnerId;
    sound = new Howl({
-      src: ['assets/notify.mp3']
+      src: ['assets/notify.mp3'],
+      html5: true
+    });
+    sound2 = new Howl({
+      src: ['assets/note1.wav'],
+      html5: true
+    });
+    sound3 = new Howl({
+      src: ['assets/note2.wav'],
+      html5: true
+    });
+
+    sound4 = new Howl({
+      src: ['assets/note3.wav'],
+      html5: true
+    });
+    sound5 = new Howl({
+      src: ['assets/note4.wav'],
+      html5: true
     });
 
   isCompletedSegment: boolean = false;
@@ -30,7 +48,9 @@ export class FolderPage implements OnInit {
   segmentName: string = 'blue';
 
   orders: Observable<any>;
+  ordersPlay: Observable<any>;
   OrderCollection: AngularFirestoreCollection<any>;
+  OrderPlayCollection: AngularFirestoreCollection<any>;
   partnerCollection: AngularFirestoreDocument<any>;
 
   pendingOrders: Observable<any>;
@@ -63,7 +83,8 @@ export class FolderPage implements OnInit {
       
     // })
         
-    
+    this.OrderPlayCollection =this.afs.collection('Orders');
+    this.ordersPlay = this.OrderPlayCollection.valueChanges(['modified']);
     this.OrderCollection = this.afs.collection('Orders', ref => ref.where('status', '==', this.segmentName).orderBy("createdAt", "desc"));
      
                this.orders =  this.OrderCollection.snapshotChanges(['added','modified']).pipe(
@@ -71,12 +92,48 @@ export class FolderPage implements OnInit {
                   map(actions => actions.map(a => {
                     const data = a.payload.doc.data();
                     const id = a.payload.doc.id;
-                    this.sound.play();
-                    console.log("Playsound!");
+                    
                     
                     return { id, ...data };
                   }))
                 );
+
+               this.ordersPlay.subscribe((data) =>{
+                console.log(data);
+                
+                data.forEach(element => {
+                  if(element['status'] == "blue"){
+                    console.log("blue");
+                    this.sound.play();
+                  }
+                  if(element['status'] == "yellow"){
+                    console.log("yellow");
+                    this.sound2.play();
+
+                    
+                  }
+                  if(element['status'] == "green"){
+                    console.log("green");
+                    this.sound3.play();
+
+                    
+                  }
+                  if(element['status'] == "red"){
+                    console.log("red");
+                    this.sound4.play();
+
+                    
+                  }
+                  if(element['status'] == "aqua"){
+                    console.log("aqua");
+                    this.sound5.play();
+
+                    
+                  }
+                });
+                
+               })
+                
 
   }
 
@@ -89,6 +146,33 @@ export class FolderPage implements OnInit {
       this.segmentName = 'blue';
       this.OrderCollection = this.afs.collection<any>('Orders', ref => ref.where('status', '==',this.segmentName).orderBy("createdAt", "desc"));
                 this.orders = this.OrderCollection.valueChanges();
+                this.orders.subscribe((data) =>{
+                  console.log(data);
+                  
+                  data.forEach(element => {
+                    if(element['status'] == "blue"){
+                      console.log("blue");
+                      this.sound.play();
+                    }
+                    if(element['status'] == "yellow"){
+                      console.log("yellow");
+                      
+                    }
+                    if(element['status'] == "green"){
+                      console.log("green");
+                      
+                    }
+                    if(element['status'] == "red"){
+                      console.log("red");
+                      
+                    }
+                    if(element['status'] == "aqua"){
+                      console.log("aqua");
+                      
+                    }
+                  });
+                  
+                 })
       
     }
     else if(ev.detail.value === "senq"){
@@ -99,6 +183,33 @@ export class FolderPage implements OnInit {
       this.segmentName = 'yellow';
       this.OrderCollection = this.afs.collection<any>('Orders', ref => ref.where('status', '==',this.segmentName).orderBy("createdAt", "desc"));
                 this.orders = this.OrderCollection.valueChanges();
+                this.orders.subscribe((data) =>{
+                  console.log(data);
+                  
+                  data.forEach(element => {
+                    if(element['status'] == "blue"){
+                      console.log("blue");
+                      this.sound.play();
+                    }
+                    if(element['status'] == "yellow"){
+                      console.log("yellow");
+                      
+                    }
+                    if(element['status'] == "green"){
+                      console.log("green");
+                      
+                    }
+                    if(element['status'] == "red"){
+                      console.log("red");
+                      
+                    }
+                    if(element['status'] == "aqua"){
+                      console.log("aqua");
+                      
+                    }
+                  });
+                  
+                 })
 
     }
     else if(ev.detail.value === "cenq"){
@@ -109,6 +220,33 @@ export class FolderPage implements OnInit {
       this.segmentName = 'green';
       this.OrderCollection = this.afs.collection<any>('Orders', ref => ref.where('status', '==',this.segmentName).orderBy("createdAt", "desc"));
                 this.orders = this.OrderCollection.valueChanges();
+                this.orders.subscribe((data) =>{
+                  console.log(data);
+                  
+                  data.forEach(element => {
+                    if(element['status'] == "blue"){
+                      console.log("blue");
+                      this.sound.play();
+                    }
+                    if(element['status'] == "yellow"){
+                      console.log("yellow");
+                      
+                    }
+                    if(element['status'] == "green"){
+                      console.log("green");
+                      
+                    }
+                    if(element['status'] == "red"){
+                      console.log("red");
+                      
+                    }
+                    if(element['status'] == "aqua"){
+                      console.log("aqua");
+                      
+                    }
+                  });
+                  
+                 })
 
     }
     else if(ev.detail.value === "completed"){
@@ -119,6 +257,33 @@ export class FolderPage implements OnInit {
       this.segmentName = 'red';
       this.OrderCollection = this.afs.collection<any>('Orders', ref => ref.where('status', '==',this.segmentName).orderBy("createdAt", "desc"));
                 this.orders = this.OrderCollection.valueChanges();
+                this.orders.subscribe((data) =>{
+                  console.log(data);
+                  
+                  data.forEach(element => {
+                    if(element['status'] == "blue"){
+                      console.log("blue");
+                      this.sound.play();
+                    }
+                    if(element['status'] == "yellow"){
+                      console.log("yellow");
+                      
+                    }
+                    if(element['status'] == "green"){
+                      console.log("green");
+                      
+                    }
+                    if(element['status'] == "red"){
+                      console.log("red");
+                      
+                    }
+                    if(element['status'] == "aqua"){
+                      console.log("aqua");
+                      
+                    }
+                  });
+                  
+                 })
 
     }
 
