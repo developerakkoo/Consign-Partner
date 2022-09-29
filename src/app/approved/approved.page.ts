@@ -212,6 +212,7 @@ export class ApprovedPage implements OnInit {
              await loading.present();
            this.OrderRef.update({
             message: "Start OTP Entered By SP Success.",
+            startTime: new Date().toISOString()
             
            }).then(async (success) => {
              
@@ -258,7 +259,7 @@ export class ApprovedPage implements OnInit {
              this.OrderRef.update({
              status: 'red',
              isCompleted: true,
-             endTime: "",
+             endTime: new Date().toISOString(),
              message: "Stop Otp entered by SP Success."
             }).then(async (success) => {
              

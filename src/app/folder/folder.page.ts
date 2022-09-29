@@ -294,6 +294,9 @@ export class FolderPage implements OnInit {
     this.router.navigate(['biling', order.orderId])
   }
 
+  openProfilePage(){
+    this.router.navigate(['profile']);
+  }
   onOpenDetailPage(id, value){
     console.log(id);
     if(value == true){

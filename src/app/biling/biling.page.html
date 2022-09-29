@@ -29,7 +29,7 @@
           <ion-text color="dark">
             <h1><strong>Bill Amount</strong> {{billamount | currency:"INR"}} </h1>
 
-            <h1><strong>Total</strong> {{total | currency:"INR"}} </h1>
+            <h1><strong>Freight</strong> {{total | currency:"INR"}} </h1>
             <h2 *ngIf="ishelper"><strong>Helper</strong> {{helper | currency:"INR"}} </h2>
             <h2 *ngIf="ispacking"><strong>Packing</strong> {{packing | currency:"INR"}} </h2>
             <!-- <h2><strong>Fare</strong> {{7000 | currency:"INR"}} </h2> -->
@@ -41,6 +41,7 @@
           <ion-text color="dark">
             <h1><strong>Kilometers</strong> {{780}} </h1>
             <h2><strong>Start time</strong> {{startTime}}</h2>
+            <h2><strong>Start time</strong> {{endTime}}</h2>
             <!-- <h2><strong>End Time</strong> 10:45</h2> -->
             <h2><strong>Pickup Address</strong> {{sender?.FlatNo |uppercase}} {{sender?.Address |uppercase}} {{sender?.City |uppercase}}</h2>
             <h2><strong>Drop Address</strong> {{receiver?.FlatNo |uppercase}} {{receiver?.Address |uppercase}} {{receiver?.City |uppercase}} </h2>

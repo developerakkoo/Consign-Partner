@@ -38,6 +38,10 @@ const routes: Routes = [
   {
     path: 'biling/:id',
     loadChildren: () => import('./biling/biling.module').then( m => m.BilingPageModule)
+  },
+  {
+    path: 'profile',
+    loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
   }
 ];
 

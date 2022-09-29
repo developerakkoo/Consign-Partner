@@ -96,16 +96,7 @@ export class RegisterVehicleownerPage implements OnInit {
 
 
   async onSubmit(){
-    let obj = {
-      ...this.vehicleRegistrationForm.value,
-      vehicleType: this.vehicleType,
-      // DL: this.drivingLicenseUrl,
-      // RC: this.rcUrl,
-      // InsuaranceUrl: this.insuaranceUrl,
-      // DriverPhoto: this.driverPhotoUrl,
-      // VehiclePhoto: this.vehicleUrl
-    }
-    console.log(obj);
+    
     
     let loading = await this.loadingController.create({
       message: "Registering user..."
@@ -113,6 +104,17 @@ export class RegisterVehicleownerPage implements OnInit {
     await loading.present();
     this.auth.createUserWithEmailAndPassword(this.vehicleRegistrationForm.value.email, this.vehicleRegistrationForm.value.password)
     .then(async (user) =>{
+      let obj = {
+        key: user.user.uid,
+        ...this.vehicleRegistrationForm.value,
+        vehicleType: this.vehicleType,
+        // DL: this.drivingLicenseUrl,
+        // RC: this.rcUrl,
+        // InsuaranceUrl: this.insuaranceUrl,
+        // DriverPhoto: this.driverPhotoUrl,
+        // VehiclePhoto: this.vehicleUrl
+      }
+      console.log(obj);
       console.log(user.user.uid);
       this.vehicleRef.doc(user.user.uid).set(obj).then(async (data) =>{
         await loading.dismiss();

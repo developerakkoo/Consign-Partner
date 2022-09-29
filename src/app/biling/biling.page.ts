@@ -54,7 +54,8 @@ export class BilingPage implements OnInit {
                 this.completedOrderRef.valueChanges().subscribe(async(data) => {
                   console.log(data);
                   this.total = data['Freight'];
-                  this.startTime = data['time'];
+                  this.startTime = data['startTime'];
+                  this.endTime = data['endTime'];
                   this.helper = data['helper'];
                   this.packing = data['cancel'];
                   this.sender = data['sender'];
