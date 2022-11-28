@@ -40,6 +40,27 @@
             <ion-label position="floating">Origin <ion-text color="danger">*</ion-text></ion-label>
             <ion-input required formControlName="origin" type="text"></ion-input>
           </ion-item>
+
+          <ion-list>
+            <ion-radio-group value="nogst" (ionChange)="gstSelectEvent($event)">
+              <ion-item>
+                <ion-label>Yes. I have GST Number</ion-label>
+                <ion-radio slot="end" value="yesgst"></ion-radio>
+              </ion-item>
+          
+              <ion-item>
+                <ion-label>No. I Don't Have GST Number</ion-label>
+                <ion-radio slot="end" value="nogst"></ion-radio>
+              </ion-item>
+         
+            </ion-radio-group>
+          </ion-list>
+          <ion-item *ngIf="isGstAvailable">
+            <ion-label position="floating">GST No <ion-text color="danger">*</ion-text></ion-label>
+            <ion-input required [ngModelOptions]="{standalone: true}"                                                      [(ngModel)]="gstNumber" type="text"></ion-input>
+          </ion-item>
+
+
           <ion-item>
             <ion-label position="floating">Destination <ion-text color="danger">*</ion-text></ion-label>
             <ion-input required formControlName="destination" type="text"></ion-input>

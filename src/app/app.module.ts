@@ -14,7 +14,7 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { IonicStorageModule } from '@ionic/storage-angular';
-
+import { HttpClientModule } from '@angular/common/http';
 const firebaseConfig = {
   apiKey: "AIzaSyDQ0ZCA4N9SqgS2su0awaZbmcox8tWbY58",
   authDomain: "test-75cf9.firebaseapp.com",
@@ -29,6 +29,7 @@ const firebaseConfig = {
   declarations: [AppComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,
     AngularFireModule.initializeApp(firebaseConfig),
+    HttpClientModule,
   AngularFireAuthModule, AngularFireDatabaseModule,AngularFireStorageModule,AngularFirestoreModule, IonicStorageModule.forRoot({name: 'agent'})],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],

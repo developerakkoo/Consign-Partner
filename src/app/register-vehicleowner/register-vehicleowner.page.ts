@@ -5,6 +5,7 @@ import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertController, LoadingController, ModalController } from '@ionic/angular';
 import { finalize } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-register-vehicleowner',
@@ -16,9 +17,12 @@ export class RegisterVehicleownerPage implements OnInit {
   vehicleRegistrationForm: FormGroup;
   vehicleRef: AngularFirestoreCollection<any>;
 
+
+  isGstAvailable: boolean = false;
   drivingLicenseUrl;
   drivingLicenseUrlSub;
   rcUrl;
+  gstNumber;
   rcUrlSub;
 
   vehicleType = "100";
@@ -37,7 +41,8 @@ export class RegisterVehicleownerPage implements OnInit {
               private alertController: AlertController,
               private loadingController: LoadingController,
               private modalController: ModalController,
-              private storage: AngularFireStorage
+              private storage: AngularFireStorage,
+              private http: HttpClient
               ) 
               {
                 this.vehicleRef = this.afs.collection('VehicleOwner');
@@ -60,6 +65,7 @@ export class RegisterVehicleownerPage implements OnInit {
    }
 
   ngOnInit() {
+    this.getGstDataFromApi();
   }
 
   close(){
@@ -93,7 +99,30 @@ export class RegisterVehicleownerPage implements OnInit {
     await alert.present();
   }
 
+  gstSelectEvent(ev){
+    console.log(ev.detail.value);
+    let value = ev.detail.value;
+    if(value == "yesgst"){
+      this.isGstAvailable = true;
+    }
+    if(value == "nogst"){
+      this.isGstAvailable = false;
+    }
+    
+  }
 
+  async getGstDataFromApi(){
+    let headers = new HttpHeaders();
+    headers.append("client_id", "GSP4ea49af0-17d3-4df7-8aed-c620e4806b9c");
+    headers.append("client_secret", "GSP286e85df-4313-43dd-9b54-fc79b81f5ffb");
+
+    this.http.get(`https://api.mastergst.com/public/search?email=mvk20@rediffmail.com&gstin=27AACCF5797L1ZY`,{
+      headers: headers
+    }).subscribe((value) =>{
+      console.log(value);
+      
+    })
+  }
 
   async onSubmit(){
     
