@@ -33,6 +33,9 @@ export class AuthPage implements OnInit {
 
   ngOnInit() {
   }
+  ionViewDidEnter(){
+    this.checkForLoginDetails();
+  }
   async presentError(msg) {
     const alert = await this.alertController.create({
       header: 'Error occured!',
@@ -42,6 +45,21 @@ export class AuthPage implements OnInit {
     });
   
     await alert.present();
+  }
+  async checkForLoginDetails(){
+    let email = await this.data.get("email");
+    let password = await this.data.get("password");
+
+    if(email != null && password != null){
+      console.log("saved data");
+      this.email = email;
+      this.password = password;
+      this.onLogin();
+      return;
+    }
+
+    console.log("no saved data");
+    
   }
 
   async onLogin(){
@@ -54,6 +72,8 @@ export class AuthPage implements OnInit {
     .then(async (user) =>{
       await this.data.set("userid", user.user.uid);
       await this.data.set('usertype', this.type);
+      await this.data.set("email", this.email);
+      await this.data.set("password", this.password);
       await loading.dismiss();
       this.router.navigate(['folder']);
 

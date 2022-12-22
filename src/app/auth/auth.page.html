@@ -16,23 +16,23 @@
   <ion-grid fixed [hidden]="!isVehicleOwnerSelected">
     <ion-row>
       <ion-col  sizeSm="12" sizeMd="12" sizeXs="12" sizeLg="6" offsetLg="3">
-        <ion-text class="ion-text-center" color="secondary">
+        <ion-text class="ion-text-center" color="PRIMARY">
           <h1> Partner Login</h1>
         </ion-text>
         <ion-card>
           <ion-card-header>
-            <ion-card-subtitle>Welcome Partner!</ion-card-subtitle>
-            <ion-card-title>Please login</ion-card-title>
+            <ion-card-subtitle>WELCOME PARTNER!</ion-card-subtitle>
+            <ion-card-title>PLEASE LOGIN</ion-card-title>
           </ion-card-header>
           <ion-card-content>
             <ion-input [(ngModel)]="email" type="email" placeholder="Email"></ion-input>
             <ion-input [(ngModel)]="password" type="text" placeholder="Password"></ion-input>
             <ion-button size="large" mode="ios" (click)="onLogin()" expand="block">
-              Login
+              LOGIN
             </ion-button>
 
             <ion-text  class="ion-margin-top" (click)="goToVehicleOwnerRegister()"  color="medium" class="ion-text-center">
-              <p>Not yet registered? Click here</p>
+              <p>NOT REGISTERED? CLICK HERE.</p>
             </ion-text>
           
           

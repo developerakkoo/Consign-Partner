@@ -118,10 +118,12 @@ export class RegisterVehicleownerPage implements OnInit {
 
     this.http.get(`https://api.mastergst.com/public/search?email=mvk20@rediffmail.com&gstin=27AACCF5797L1ZY`,{
       headers: headers
-    }).subscribe((value) =>{
+    }).subscribe((value) => {
       console.log(value);
       
     })
+
+    
   }
 
   async onSubmit(){
