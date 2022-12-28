@@ -54,13 +54,13 @@ export class EnquiryPage implements OnInit {
     this.quoteForm = this.fb.group({
       // vehicleNo: ['', [Validators.required]],
       // driverMobile: ['', [Validators.required]],
-      freightCharges: ['', [Validators.required]],
-      advance:['', [Validators.required]],
-      helper:[''],
-      packing: [''],
-      waiting: ['', [Validators.required]],
-      payment:['', [Validators.required]],
-      cancel:['', [Validators.required]]
+      freightCharges: [0, [Validators.required]],
+      advance:[0, [Validators.required]],
+      helper:[0],
+      packing: [0],
+      waiting: [0, [Validators.required]],
+      payment:[0, [Validators.required]],
+      cancel:[0, [Validators.required]]
     })
    }
 
@@ -146,11 +146,11 @@ export class EnquiryPage implements OnInit {
     this.OrderRef.update({
       status: 'yellow',
       message: "Order submitted by service provider",
-      helper: this.quoteForm.value.helper || "",
-      package: this.quoteForm.value.packing || "",
-      payment: this.quoteForm.value.payment,
-      waiting: this.quoteForm.value.waiting,
-      cancel: this.quoteForm.value.cancel,
+      helper: this.quoteForm.value.helper || 0,
+      package: this.quoteForm.value.packing || 0,
+      payment: this.quoteForm.value.payment || 0,
+      waiting: this.quoteForm.value.waiting || 0,
+      cancel: this.quoteForm.value.cancel || 0,
       companyname: this.partnerName,
      
       adv: this.quoteForm.value.advance,
