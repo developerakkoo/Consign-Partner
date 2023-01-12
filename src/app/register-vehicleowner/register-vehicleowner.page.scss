@@ -1,3 +1,8 @@
 *{
     text-transform: uppercase;
 }
+
+ion-select-option{
+    --padding-start: 100px;
+    min-width: 70% !important;
+}

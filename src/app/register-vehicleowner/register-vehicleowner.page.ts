@@ -6,7 +6,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertController, LoadingController, ModalController } from '@ionic/angular';
 import { finalize } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
+import { Observable } from 'rxjs';
+const gst = "27AACCF5797L1ZY";
 @Component({
   selector: 'app-register-vehicleowner',
   templateUrl: './register-vehicleowner.page.html',
@@ -16,6 +17,8 @@ export class RegisterVehicleownerPage implements OnInit {
 
   vehicleRegistrationForm: FormGroup;
   vehicleRef: AngularFirestoreCollection<any>;
+  vehicleDataRef: AngularFirestoreCollection<any>;
+  vehicleData: Observable<any>;
 
 
   isGstAvailable: boolean = false;
@@ -46,6 +49,8 @@ export class RegisterVehicleownerPage implements OnInit {
               ) 
               {
                 this.vehicleRef = this.afs.collection('VehicleOwner');
+                this.vehicleDataRef = this.afs.collection('vehicle-files');
+                this.vehicleData = this.vehicleDataRef.valueChanges();
 
     this.vehicleRegistrationForm = this.formBuilder.group({
       email: ['', [Validators.required]],
@@ -56,16 +61,15 @@ export class RegisterVehicleownerPage implements OnInit {
       alternateMobile: ['', [Validators.required]],
       name: ['', Validators.required],
       surname:['', Validators.required],
-      flatNo: ['', [Validators.required]],
       apartmentAddress:['', [Validators.required, Validators.minLength(8)]],
       officeAddress:['',[Validators.required]],
+      gstNo: ['', [Validators.pattern('^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$')]],
       
 
     })
    }
 
   ngOnInit() {
-    this.getGstDataFromApi();
   }
 
   close(){
@@ -111,15 +115,41 @@ export class RegisterVehicleownerPage implements OnInit {
     
   }
 
-  async getGstDataFromApi(){
-    let headers = new HttpHeaders();
-    headers.append("client_id", "GSP4ea49af0-17d3-4df7-8aed-c620e4806b9c");
-    headers.append("client_secret", "GSP286e85df-4313-43dd-9b54-fc79b81f5ffb");
+  gstHandleEvent(ev) {
+    let value = ev.detail.value;
+    console.log(value);
+    console.log(value.length);
+    if (value.length == 15) {
+      console.log("Send Gst Api request");
+      this.getGstDataFromApi(value);
+    }
 
-    this.http.get(`https://api.mastergst.com/public/search?email=mvk20@rediffmail.com&gstin=27AACCF5797L1ZY`,{
-      headers: headers
-    }).subscribe((value) => {
+  }
+  async getGstDataFromApi(gst){
+
+
+    this.http.get(`https://api.consign.co.in/getgst/${gst}`)
+    .subscribe((value) => {
       console.log(value);
+      let addr = value['data']['data']['adadr'][0];
+      let pradr = value['data']['data']['pradr']['addr'];
+
+      console.log(addr.length);
+      console.log(pradr);
+
+      if(Object.getOwnPropertyNames(pradr).length !== 0){
+        console.log(`PRADR is empty`);
+        let add = pradr['bnm'] + " "+  pradr['bno'] + " " + pradr['loc'] + " " + pradr['st'] + " "+ pradr['pncd'] + " " + pradr['stcd'] + " " + pradr['dst'];
+        this.vehicleRegistrationForm.get("apartmentAddress").setValue(add)
+        
+      }
+
+      if(addr.length !== 0){
+        console.log(`addr is empty`);
+        let add = addr['bnm']+ " "+ addr['bno'] + " " + addr['loc'] + " " +addr['st'] + " "+ addr['stcd'] +" " +addr['dst'] +" " +addr['pncd'];
+        this.vehicleRegistrationForm.get("officeAddress").setValue(add);
+      }
+      
       
     })
 
@@ -163,52 +193,14 @@ export class RegisterVehicleownerPage implements OnInit {
       
     })
     console.log(this.vehicleRegistrationForm.value);
+    console.log(this.vehicleType);
+    
 
     
   }
   onChange(event: any) {
     console.log(event.target.value);
-    switch (event.target.value) {
-      case "100":
-        this.vehicleType = "100"
-        break;
-      case "500":
-        this.vehicleType = "500"
-        break;
-      case "600":
-        this.vehicleType = "600"
-        break;
-      case "750":
-        this.vehicleType = "750"
-        break;
-
-      case "1000":
-        this.vehicleType = "1000"
-        break;
-
-      case "1208":
-        this.vehicleType = "1208"
-        break;
-
-      case "1250":
-        this.vehicleType = "1250"
-        break;
-
-      case "1300":
-        this.vehicleType = "1300"
-        break;
-
-      case "1500":
-        this.vehicleType = "1500"
-        break;
-
-      case "1700":
-        this.vehicleType = "1700"
-        break;
-      default:
-        this.vehicleType = "100 KG"
-        break;
-    }
+    this.vehicleType = event.detail.value;
   }
   async showSuccesfulUploadAlertPan() {
     const alert = await this.alertController.create({
