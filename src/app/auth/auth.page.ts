@@ -34,7 +34,7 @@ export class AuthPage implements OnInit {
   ngOnInit() {
   }
   ionViewDidEnter(){
-    this.checkForLoginDetails();
+    // this.checkForLoginDetails();
   }
   async presentError(msg) {
     const alert = await this.alertController.create({

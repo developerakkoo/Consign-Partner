@@ -1,7 +1,7 @@
 
 
 <ion-content>
-  <!-- <ion-segment (ionChange)="segmentChanged($event)" value="vehicle">
+  <ion-segment (ionChange)="segmentChanged($event)" value="vehicle">
     <ion-segment-button value="vehicle">
       <ion-label>Vehicle Owner</ion-label>
     </ion-segment-button>
@@ -11,12 +11,12 @@
     <ion-segment-button value="company">
       <ion-label>Company</ion-label>
     </ion-segment-button>
-  </ion-segment> -->
+  </ion-segment>
   
   <ion-grid fixed [hidden]="!isVehicleOwnerSelected">
     <ion-row>
       <ion-col  sizeSm="12" sizeMd="12" sizeXs="12" sizeLg="6" offsetLg="3">
-        <ion-text class="ion-text-center" color="PRIMARY">
+        <ion-text class="ion-text-center" color="primary">
           <h1> Partner Login</h1>
         </ion-text>
         <ion-card>
@@ -43,7 +43,7 @@
   </ion-grid>
 
 
-  <!-- <ion-grid fixed [hidden]="!isAgentSelected">
+  <ion-grid fixed [hidden]="!isAgentSelected">
     <ion-row>
       <ion-col  sizeSm="12" sizeMd="12" sizeXs="12" sizeLg="6" offsetLg="3">
         <ion-card>
@@ -92,6 +92,6 @@
         </ion-card>
       </ion-col>
     </ion-row>
-  </ion-grid> -->
+  </ion-grid>
 
 </ion-content>

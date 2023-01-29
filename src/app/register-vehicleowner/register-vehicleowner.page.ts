@@ -55,6 +55,7 @@ export class RegisterVehicleownerPage implements OnInit {
     this.vehicleRegistrationForm = this.formBuilder.group({
       email: ['', [Validators.required]],
       password: ['', [Validators.required]],
+      confirmpassword: ['', [Validators.required]],
       origin: ['', [Validators.required]],
       destination: ['', Validators.required],
       mobile: ['', [Validators.required]],

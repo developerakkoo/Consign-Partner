@@ -89,6 +89,16 @@
           <ion-input required formControlName="packing" type="number"></ion-input>
         </ion-item>
 
+
+        <ion-item>
+          <ion-item>
+            <ion-label position="floating">Payment Type <ion-text color="danger">*</ion-text></ion-label>
+            <ion-select formControlName="payment" value="cash" multiple="false" placeholder="Select type">
+              <ion-select-option value="cash">Cash</ion-select-option>
+              <ion-select-option value="online">Online</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-item> -->
         <ion-item>
           <ion-label position="floating">Waiting Charges <ion-text color="danger">*</ion-text></ion-label>
           <ion-input required formControlName="waiting" type="number"></ion-input>
@@ -99,16 +109,6 @@
           <ion-label position="floating">Cancel Charges <ion-text color="danger">*</ion-text></ion-label>
           <ion-input required formControlName="cancel" type="number"></ion-input>
         </ion-item>
-        <ion-item>
-          <ion-item>
-            <ion-label position="floating">Payment Type <ion-text color="danger">*</ion-text></ion-label>
-            <ion-select formControlName="payment" value="cash" multiple="false" placeholder="Select type">
-              <ion-select-option value="cash">Cash</ion-select-option>
-              <ion-select-option value="online">Online</ion-select-option>
-            </ion-select>
-          </ion-item>
-        </ion-item> -->
-
         <ion-button block color="primary" type="submit" [disabled]="quoteForm.invalid">
           Submit
         </ion-button>

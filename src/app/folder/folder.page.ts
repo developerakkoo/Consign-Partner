@@ -143,14 +143,14 @@ export class FolderPage implements OnInit {
       this.isEnquiriesSegment = true;
       this.isSubmittedSegment =false;
       this.isApprovedSegment = false;
-      this.segmentName = 'blue';
+      this.segmentName = 'sptopartner';
       this.OrderCollection = this.afs.collection<any>('Orders', ref => ref.where('status', '==',this.segmentName).orderBy("createdAt", "desc"));
                 this.orders = this.OrderCollection.valueChanges();
                 this.orders.subscribe((data) =>{
                   console.log(data);
                   
                   data.forEach(element => {
-                    if(element['status'] == "blue"){
+                    if(element['status'] == "sptopartner"){
                       console.log("blue");
                       this.sound.play();
                     }

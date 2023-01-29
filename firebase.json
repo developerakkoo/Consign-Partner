@@ -1,7 +1,7 @@
 {
   "hosting": {
-    "site": "frugal-consign-agent",
     "public": "www",
+    "site": "agent-consign",
     "ignore": [
       "firebase.json",
       "**/.*",

@@ -21,6 +21,10 @@
           <ion-input required formControlName="password" type="text"></ion-input>
         </ion-item>
         <ion-item>
+          <ion-label position="floating">Confirm Password <ion-text color="danger">*</ion-text></ion-label>
+          <ion-input required formControlName="confirmpassword" type="text"></ion-input>
+        </ion-item>
+        <ion-item>
           <ion-label position="floating">Firstname <ion-text color="danger">*</ion-text></ion-label>
           <ion-input required formControlName="name" type="text"></ion-input>
         </ion-item>
@@ -40,34 +44,52 @@
           <ion-label position="floating">Origin <ion-text color="danger">*</ion-text></ion-label>
           <ion-input required formControlName="origin" type="text"></ion-input>
         </ion-item>
-        <ion-item>
+        <!-- <ion-item>
           <ion-label position="floating">Destination <ion-text color="danger">*</ion-text></ion-label>
           <ion-input required formControlName="destination" type="text"></ion-input>
-        </ion-item>
-        <ion-item>
+        </ion-item> -->
+        <table class="table table-bordered" formArrayName="destinations">
+          <tr>
+            <th colspan="6">Add Destination:</th>
+            <th width="150px"><ion-button (click)="addQuantity()">
+              <ion-icon fill="clear" slot="icon-only" name="add"></ion-icon>
+            </ion-button></th>
+          </tr>
+          <tr *ngFor="let quantity of fields.controls; let i=index" [formGroupName]="i">
+            <td>
+              <ion-item>
+                <ion-label>Destination:- </ion-label>
+                <ion-input type="text" formControlName="destinations" class="form-control"></ion-input>
+              </ion-item>
+               
+            </td>
+           
+            <td>
+                <ion-button (click)="removeQuantity(i)" color="danger">Remove</ion-button>
+            </td>
+          </tr>
+        </table>
+        <!-- <ion-item>
           <ion-label position="floating">Flat no <ion-text color="danger">*</ion-text></ion-label>
           <ion-input required formControlName="flatNo" type="text"></ion-input>
+        </ion-item> -->
+        <ion-item>
+          <ion-label position="floating">Adhar Number <ion-text color="danger">*</ion-text></ion-label>
+          <ion-input required formControlName="adhar" type="text"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-label position="floating">Address <ion-text color="danger">*</ion-text></ion-label>
-          <ion-input required formControlName="apartmentAddress" type="text"></ion-input>
+          <ion-label position="floating">Pan Number <ion-text color="danger">*</ion-text></ion-label>
+          <ion-input required formControlName="pan" type="text"></ion-input>
         </ion-item>
-        <ion-item>
-          <ion-label position="floating">Office Address <ion-text color="danger">*</ion-text></ion-label>
-          <ion-input required formControlName="officeAddress" type="text"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label position="floating">GST<ion-text color="danger">*</ion-text></ion-label>
-          <ion-input required formControlName="GST" type="text"></ion-input>
-        </ion-item>
+      
 
         <ion-text color="primary">
-          <h1>Adhar Card</h1>
+          <h1>UPLOAD ADHAR CARD</h1>
           <input type="file" name="file" (change)="uploadAdhar($event)" id="">
         </ion-text>
 
         <ion-text color="primary">
-          <h1>Pan Card</h1>
+          <h1>UPLOAD PAN CARD</h1>
           <input type="file" name="file" (change)="uploadPan($event)" id="">
         </ion-text>
        

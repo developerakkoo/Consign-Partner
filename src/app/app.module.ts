@@ -16,15 +16,15 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { HttpClientModule } from '@angular/common/http';
 const firebaseConfig = {
-  apiKey: "AIzaSyDQ0ZCA4N9SqgS2su0awaZbmcox8tWbY58",
-  authDomain: "test-75cf9.firebaseapp.com",
-  projectId: "test-75cf9",
-  storageBucket: "test-75cf9.appspot.com",
-  messagingSenderId: "71939903995",
-  appId: "1:71939903995:web:42ffbcb63f22573f093b5e",
-  measurementId: "G-LT1P926Y55"
+  apiKey: "AIzaSyB8jWxZPWeAFvV1HFMnYtM5ohdKYPsk15E",
+  authDomain: "consign-612af.firebaseapp.com",
+  databaseURL: "https://consign-612af-default-rtdb.firebaseio.com",
+  projectId: "consign-612af",
+  storageBucket: "consign-612af.appspot.com",
+  messagingSenderId: "524688990077",
+  appId: "1:524688990077:web:fa5d3d194dd1db196cb614",
+  measurementId: "G-PHET99DV0G"
 };
-
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,

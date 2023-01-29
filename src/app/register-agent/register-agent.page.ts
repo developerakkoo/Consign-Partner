@@ -1,6 +1,6 @@
 import { ModalController, AlertController, LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
@@ -14,6 +14,7 @@ import { finalize } from 'rxjs/operators';
 })
 export class RegisterAgentPage implements OnInit {
   agentRegistrationForm: FormGroup;
+  destinationForm: FormGroup;
 
   agentRef: AngularFirestoreCollection<any>;
 
@@ -37,19 +38,22 @@ export class RegisterAgentPage implements OnInit {
     this.agentRegistrationForm = this.fb.group({
       email: ['', [Validators.required, Validators.minLength(5)]],
       password: ['', [Validators.required, Validators.minLength(5)]],
+      confirmpassword: ['', [Validators.required, Validators.minLength(5)]],
       origin: ['', [Validators.required]],
-      destination: ['', Validators.required],
       mobile: ['', [Validators.required]],
       alternateMobile: ['', [Validators.required]],
       name: ['', Validators.required],
       surname:['', Validators.required],
-      flatNo: ['', [Validators.required]],
-      apartmentAddress:['', [Validators.required, Validators.minLength(8)]],
-      officeAddress:['',[Validators.required]],
-      GST: ['', [Validators.minLength(15)]],
+      adhar:['', [Validators.required, Validators.minLength(12)]],
+      pan:['',[Validators.required, Validators.min(10)]],
+      destinations: this.fb.array([])
 
 
     })
+
+    this.destinationForm = this.fb.group({
+      destinations: this.fb.array([])
+    });
    }
 
   ngOnInit() {
@@ -59,6 +63,26 @@ export class RegisterAgentPage implements OnInit {
     this.modalController.dismiss();
   }
 
+  get fields() {
+    return this.agentRegistrationForm.get("destinations") as FormArray;
+  }
+
+  newField(): FormGroup {
+    return this.fb.group({
+      destinations: '',
+    })
+  }
+
+  addQuantity() {
+    const field = this.fb.group({
+      destinations: '',
+    })
+    this.fields.push(field);
+  }
+
+  removeQuantity(i: number) {
+    this.fields.removeAt(i);
+  }
   async presentError(msg) {
     const alert = await this.alertController.create({
       header: 'Error occured!',

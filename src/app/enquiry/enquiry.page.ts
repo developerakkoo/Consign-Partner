@@ -58,9 +58,9 @@ export class EnquiryPage implements OnInit {
       // advance:[0, [Validators.required]],
       // helper:[0],
       // packing: [0],
-      // waiting: [0, [Validators.required]],
+      waiting: [0, [Validators.required]],
       // payment:[0, [Validators.required]],
-      // cancel:[0, [Validators.required]]
+      cancel:[0, [Validators.required]]
     })
    }
 
