@@ -15,6 +15,7 @@ import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { HttpClientModule } from '@angular/common/http';
+import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 const firebaseConfig = {
   apiKey: "AIzaSyB8jWxZPWeAFvV1HFMnYtM5ohdKYPsk15E",
   authDomain: "consign-612af.firebaseapp.com",
@@ -26,10 +27,11 @@ const firebaseConfig = {
   measurementId: "G-PHET99DV0G"
 };
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent,],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,
     AngularFireModule.initializeApp(firebaseConfig),
     HttpClientModule,
+    GooglePlaceModule,
   AngularFireAuthModule, AngularFireDatabaseModule,AngularFireStorageModule,AngularFirestoreModule, IonicStorageModule.forRoot({name: 'agent'})],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],

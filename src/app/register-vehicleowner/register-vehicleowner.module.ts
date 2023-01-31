@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { RegisterVehicleownerPageRoutingModule } from './register-vehicleowner-routing.module';
 
 import { RegisterVehicleownerPage } from './register-vehicleowner.page';
+import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 
 @NgModule({
   imports: [
@@ -14,6 +15,7 @@ import { RegisterVehicleownerPage } from './register-vehicleowner.page';
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
+    GooglePlaceModule,
     RegisterVehicleownerPageRoutingModule
   ],
   declarations: [RegisterVehicleownerPage]

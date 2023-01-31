@@ -17,7 +17,7 @@ export class AuthPage implements OnInit {
   email: string;
   password: string;
 
-  type: string = "vehicle";
+  type: string = "VehicleOwner";
 
   isAgentSelected: boolean= false;
   isCompanySelected: boolean = false;
@@ -87,23 +87,23 @@ export class AuthPage implements OnInit {
 
   segmentChanged(ev: any) {
     console.log('Segment changed', ev.detail.value);
-    if(ev.detail.value === "agent"){
-      this.type = "agent";
+    if(ev.detail.value === "Agent"){
+      this.type = "Agent";
       this.isAgentSelected = true; 
       this.isCompanySelected = false;
       this.isVehicleOwnerSelected = false;
 
     }
-    if(ev.detail.value === "company"){
-      this.type = "company";
+    if(ev.detail.value === "Company"){
+      this.type = "Company";
       this.isAgentSelected = false; 
       this.isCompanySelected = true;
       this.isVehicleOwnerSelected = false;
     }
 
-    if(ev.detail.value === "vehicle"){
+    if(ev.detail.value === "VehicleOwner"){
 
-      this.type = "vehicle";
+      this.type = "VehicleOwner";
       this.isAgentSelected = false; 
       this.isCompanySelected = false;
       this.isVehicleOwnerSelected = true;

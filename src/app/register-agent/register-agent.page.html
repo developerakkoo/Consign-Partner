@@ -24,6 +24,7 @@
           <ion-label position="floating">Confirm Password <ion-text color="danger">*</ion-text></ion-label>
           <ion-input required formControlName="confirmpassword" type="text"></ion-input>
         </ion-item>
+        <p *ngIf="agentRegistrationForm.errors?.['notMatch'] ">Password do not match. </p>
         <ion-item>
           <ion-label position="floating">Firstname <ion-text color="danger">*</ion-text></ion-label>
           <ion-input required formControlName="name" type="text"></ion-input>
@@ -74,7 +75,7 @@
           <ion-input required formControlName="flatNo" type="text"></ion-input>
         </ion-item> -->
         <ion-item>
-          <ion-label position="floating">Adhar Number <ion-text color="danger">*</ion-text></ion-label>
+          <ion-label position="floating">Aadhaar Number <ion-text color="danger">*</ion-text></ion-label>
           <ion-input required formControlName="adhar" type="text"></ion-input>
         </ion-item>
         <ion-item>
@@ -84,7 +85,7 @@
       
 
         <ion-text color="primary">
-          <h1>UPLOAD ADHAR CARD</h1>
+          <h1>UPLOAD AADHAAR CARD</h1>
           <input type="file" name="file" (change)="uploadAdhar($event)" id="">
         </ion-text>
 

@@ -1,3 +1,4 @@
+import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -14,6 +15,7 @@ import { ProfilePage } from './profile.page';
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
+    GooglePlaceModule,
     ProfilePageRoutingModule
   ],
   declarations: [ProfilePage]

@@ -1,12 +1,15 @@
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertController, LoadingController, ModalController } from '@ionic/angular';
 import { finalize } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Address } from 'ngx-google-places-autocomplete/objects/address';
+import { Options } from 'ngx-google-places-autocomplete/objects/options/options';
+import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 const gst = "27AACCF5797L1ZY";
 @Component({
   selector: 'app-register-vehicleowner',
@@ -15,12 +18,14 @@ const gst = "27AACCF5797L1ZY";
 })
 export class RegisterVehicleownerPage implements OnInit {
 
+  @ViewChild("placesRef") placesRef : GooglePlaceDirective;
   vehicleRegistrationForm: FormGroup;
+  destinationForm: FormGroup;
   vehicleRef: AngularFirestoreCollection<any>;
   vehicleDataRef: AngularFirestoreCollection<any>;
   vehicleData: Observable<any>;
 
-
+  options: Options;
   isGstAvailable: boolean = false;
   drivingLicenseUrl;
   drivingLicenseUrlSub;
@@ -57,22 +62,47 @@ export class RegisterVehicleownerPage implements OnInit {
       password: ['', [Validators.required]],
       confirmpassword: ['', [Validators.required]],
       origin: ['', [Validators.required]],
-      destination: ['', Validators.required],
+      destination: this.formBuilder.array([]),
       mobile: ['', [Validators.required]],
       alternateMobile: ['', [Validators.required]],
       name: ['', Validators.required],
       surname:['', Validators.required],
-      apartmentAddress:['', [Validators.required, Validators.minLength(8)]],
-      officeAddress:['',[Validators.required]],
+      // apartmentAddress:['', [Validators.required, Validators.minLength(8)]],
+      // officeAddress:['',[Validators.required]],
       gstNo: ['', [Validators.pattern('^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$')]],
       
 
-    })
+    });
+
+
+    this.destinationForm = this.formBuilder.group({
+      destinations: this.formBuilder.array([])
+    });
    }
 
   ngOnInit() {
   }
 
+  get fields() {
+    return this.vehicleRegistrationForm.get("destination") as FormArray;
+  }
+
+  newField(): FormGroup {
+    return this.formBuilder.group({
+      destination: '',
+    })
+  }
+
+  addQuantity() {
+    const field = this.formBuilder.group({
+      destination: '',
+    })
+    this.fields.push(field);
+  }
+
+  removeQuantity(i: number) {
+    this.fields.removeAt(i);
+  }
   close(){
     this.modalController.dismiss();
   }
@@ -156,6 +186,34 @@ export class RegisterVehicleownerPage implements OnInit {
 
     
   }
+
+  public handleAddressChange(address: Address) {
+    // Do some stuff
+    console.log(address);
+    let add = address['address_components'];
+    console.log(add[add.length - 1 ]['long_name']);
+    console.log(add[add.length - 3 ]['long_name']);
+    console.log(add[add.length - 4 ]['long_name']);
+
+    this.vehicleRegistrationForm.setValue({
+      destination: address['formatted_address']
+    })
+      // this.ionicForm.setValue({
+      //   name: this.ionicForm.value.name, 
+      //   mobile: this.ionicForm.value.mobile,
+      //   mobileOtp: this.ionicForm.value.mobileOtp,
+      //   password: this.ionicForm.value.password,
+      //   confirmpassword: this.ionicForm.value.confirmpassword,
+      //   email: this.ionicForm.value.email,
+      //   emailOtp: this.ionicForm.value.emailOtp,
+      //   gstNo: this.ionicForm.value.gstNo,
+      //   adress: address['formatted_address'],
+      // });
+
+  
+
+  }
+
 
   async onSubmit(){
     

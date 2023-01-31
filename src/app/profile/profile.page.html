@@ -12,7 +12,7 @@
   <ion-grid fixed>
     <ion-row>
       <ion-col sizeLg="8" offsetLg="2" sizeSm="12" sizeXs="12">
-        <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+        <form *ngIf="isCustomerForm" [formGroup]="userForm" (ngSubmit)="onSubmit()">
           <ion-item>
             <ion-label position="floating">Full Name</ion-label>
             <ion-input required formControlName="name" type="text"></ion-input>
@@ -36,6 +36,80 @@
             <ion-input required formControlName="address" type="text"></ion-input>
           </ion-item>
           <ion-button block color="primary" type="submit" [disabled]="userForm.invalid">
+            SAVE Changes
+          </ion-button>
+          <ion-button (click)="openPasswordResetPage()" block color="primary" type="submit">
+            Reset Password
+          </ion-button>
+        </form>
+
+        <form *ngIf="isVehicleForm" [formGroup]="vehicleOwnerForm" (ngSubmit)="onSubmit()">
+          <ion-item>
+            <ion-label position="floating">Full Name</ion-label>
+            <ion-input required formControlName="name" type="text"></ion-input>
+          </ion-item>
+          <ion-item >
+            <ion-label position="floating">E-Mail <ion-text color="danger">*</ion-text></ion-label>
+            <ion-input disabled="true" required formControlName="email" type="text"></ion-input>
+            
+          </ion-item>
+          <ion-item >
+            <ion-label position="floating">Password <ion-text color="danger">*</ion-text></ion-label>
+            <ion-input disabled="true" required formControlName="password" type="password"></ion-input>
+            
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Mobile <ion-text color="danger">*</ion-text></ion-label>
+            <ion-input required formControlName="mobile" type="text"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Alternate Mobile <ion-text color="danger">*</ion-text></ion-label>
+            <ion-input required formControlName="alternatemobile" type="text"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Origin <ion-text color="danger">*</ion-text></ion-label>
+            <ion-input required formControlName="origin" type="text"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">GST <ion-text color="danger">*</ion-text></ion-label>
+            <ion-input required formControlName="gst" type="text"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Vehicle Type <ion-text color="danger">*</ion-text></ion-label>
+            <ion-input required formControlName="vehicleType" type="text"></ion-input>
+          </ion-item>
+
+          <table class="table table-bordered" formArrayName="destination">
+            <tr>
+              <th colspan="6">Add Destination:</th>
+              <th width="150px"><ion-button (click)="addQuantity()">
+                <ion-icon fill="clear" slot="icon-only" name="add"></ion-icon>
+              </ion-button></th>
+            </tr>
+            <tr *ngFor="let quantity of fieldsVehicle.controls; let i=index" [formGroupName]="i">
+              <td>
+                <ion-item>
+                  <ion-label>Destination:- </ion-label>
+                  <input  
+                  style="width: 100%; border-top: none; border-left: none; border-right: none; border-bottom: none;" formControlName="destination" type="text"
+                   ngx-google-places-autocomplete
+              [options]='options' #placesRef="ngx-places"
+              (onAddressChange)="handleAddressChange($event)" />
+                </ion-item>
+                 
+              </td>
+             
+              <td>
+                  <ion-button (click)="removeQuantity(i)" color="danger">Remove</ion-button>
+              </td>
+            </tr>
+          </table>
+
+         
+          <ion-button block color="primary" type="submit" [disabled]="vehicleOwnerForm.invalid">
             SAVE Changes
           </ion-button>
           <ion-button (click)="openPasswordResetPage()" block color="primary" type="submit">

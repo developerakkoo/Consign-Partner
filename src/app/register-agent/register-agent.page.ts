@@ -1,12 +1,13 @@
 import { ModalController, AlertController, LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { finalize } from 'rxjs/operators';
-
+import { passwordMatch } from './../validators/passwordMatch';
+import { validateCallback } from '@firebase/util';
 @Component({
   selector: 'app-register-agent',
   templateUrl: './register-agent.page.html',
@@ -49,7 +50,7 @@ export class RegisterAgentPage implements OnInit {
       destinations: this.fb.array([])
 
 
-    })
+    },[passwordMatch("password", "confimpassword")]);
 
     this.destinationForm = this.fb.group({
       destinations: this.fb.array([])
@@ -62,6 +63,22 @@ export class RegisterAgentPage implements OnInit {
   close(){
     this.modalController.dismiss();
   }
+
+  passwordMatchingValidatior(form: FormGroup)  {
+    const password = form.controls['password'].value;
+    const confirmation = form.controls['confirmpassword'].value;
+
+    if (!password || !confirmation) { // if the password or confirmation has not been inserted ignore
+      return null;
+    }
+    
+    if (confirmation.length > 0 && confirmation !== password) {
+      confirmation.setErrors({ notMatch: true }); // set the error in the confirmation input/control
+    }
+
+    return null; // always return null here since as you'd want the error displayed on the confirmation input
+ }
+
 
   get fields() {
     return this.agentRegistrationForm.get("destinations") as FormArray;
@@ -113,12 +130,7 @@ export class RegisterAgentPage implements OnInit {
 
 
   async onSubmit(){
-    let obj = {
-      ...this.agentRegistrationForm.value,
-      adharUrl: this.adharUrl,
-      panUrl: this.panUrl
-    }
-    console.log(obj);
+   
 
     let loading = await this.loadingController.create({
       message: "Registering user..."
@@ -127,6 +139,12 @@ export class RegisterAgentPage implements OnInit {
     this.auth.createUserWithEmailAndPassword(this.agentRegistrationForm.value.email, this.agentRegistrationForm.value.password)
     .then(async (user) =>{
       console.log(user.user.uid);
+      let obj = {
+        ...this.agentRegistrationForm.value,
+        adharUrl: this.adharUrl,
+        panUrl: this.panUrl,key: user.user.uid,
+      }
+      console.log(obj);
       this.agentRef.doc(user.user.uid).set(obj).then(async (data) =>
       {
         await loading.dismiss();
