@@ -41,34 +41,20 @@
             <ion-input required formControlName="alternateMobile" type="number"></ion-input>
           </ion-item>
            
-          <ion-item *ngIf="!isGstAvailable">
+        
             <ion-label position="stacked">Origin <ion-text color="danger">*</ion-text></ion-label>
           
             <input  style="width: 100%; border-top: none; border-left: none; border-right: none; border-bottom: none;" formControlName="origin" type="text"
              ngx-google-places-autocomplete
               [options]='options' #placesRef="ngx-places"
               (onAddressChange)="handleAddressChange($event)" />
-          </ion-item>
         
-
-          <ion-list>
-            <ion-radio-group value="nogst" (ionChange)="gstSelectEvent($event)">
-              <ion-item>
-                <ion-label>Yes. I have GST Number</ion-label>
-                <ion-radio slot="end" value="yesgst"></ion-radio>
-              </ion-item>
-          
-              <ion-item>
-                <ion-label>No. I Don't Have GST Number</ion-label>
-                <ion-radio slot="end" value="nogst"></ion-radio>
-              </ion-item>
+<!-- 
          
-            </ion-radio-group>
-          </ion-list>
-          <ion-item *ngIf="isGstAvailable">
+          <ion-item >
             <ion-label position="floating">GST No <ion-text color="danger">*</ion-text></ion-label>
             <ion-input (ionChange)="gstHandleEvent($event)" formControlName="gstNo" type="text"></ion-input>
-          </ion-item>
+          </ion-item> -->
 
 
           <!-- <ion-item>
@@ -78,7 +64,7 @@
          
           <table class="table table-bordered" formArrayName="destination">
             <tr>
-              <th colspan="6">Add Destination:</th>
+              <th colspan="6">Add Destination: <p style="font-style: italic; font-size: 10px;">(Enter only City or Town names)</p> </th>
               <th width="150px"><ion-button (click)="addQuantity()">
                 <ion-icon fill="clear" slot="icon-only" name="add"></ion-icon>
               </ion-button></th>
@@ -86,11 +72,11 @@
             <tr *ngFor="let quantity of fields.controls; let i=index" [formGroupName]="i">
               <td>
                 <ion-item>
-                  <ion-label>Destination:- </ion-label>
+                  <ion-label>Destination served:- </ion-label>
                   <input  style="width: 100%; border-top: none; border-left: none; border-right: none; border-bottom: none;" formControlName="destination" type="text"
              ngx-google-places-autocomplete
               [options]='options' #placesRef="ngx-places"
-              (onAddressChange)="handleAddressChange($event)" />
+              (onAddressChange)="handleAddressChangeDestination($event,i)" />
                 </ion-item>
                  
               </td>
@@ -125,15 +111,6 @@
           </ion-text>
 
           <ion-text color="primary">
-            <h1>RC Book</h1>
-            <input type="file" name="file" (change)="uploadRc($event)" id="">
-          </ion-text>
-          <ion-text color="primary">
-            <h1>Insuarance Copy</h1>
-            <input type="file" name="file" (change)="uploadInsuarance($event)" id="">
-          </ion-text>
-
-          <ion-text color="primary">
             <h1>Driver Photo</h1>
             <input type="file" name="file" (change)="uploadDriverImage($event)" id="">
           </ion-text>
@@ -142,6 +119,21 @@
             <h1>Vehicle Photo</h1>
             <input type="file" name="file" (change)="uploadVehicleImage($event)" id="">
           </ion-text>
+          <ion-text color="primary">
+            <h1>RC Book</h1>
+            <input type="file" name="file" (change)="uploadRc($event)" id="">
+          </ion-text>
+
+          <ion-item>
+            <ion-label>Vehicle No</ion-label>
+            <ion-input type="text" placeholder="Enter your vehicle number"></ion-input>
+          </ion-item>
+          <ion-text color="primary">
+            <h1>Insurance Copy</h1>
+            <input type="file" name="file" (change)="uploadInsuarance($event)" id="">
+          </ion-text>
+
+         
 
           
 

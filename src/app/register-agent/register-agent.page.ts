@@ -1,13 +1,16 @@
 import { ModalController, AlertController, LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { AbstractControl, FormArray, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { AbstractControl, Form, FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { finalize } from 'rxjs/operators';
 import { passwordMatch } from './../validators/passwordMatch';
 import { validateCallback } from '@firebase/util';
+import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
+import { Options } from 'ngx-google-places-autocomplete/objects/options/options';
+import { Address } from 'ngx-google-places-autocomplete/objects/address';
 @Component({
   selector: 'app-register-agent',
   templateUrl: './register-agent.page.html',
@@ -16,7 +19,8 @@ import { validateCallback } from '@firebase/util';
 export class RegisterAgentPage implements OnInit {
   agentRegistrationForm: FormGroup;
   destinationForm: FormGroup;
-
+  @ViewChild("placesRef") placesRef : GooglePlaceDirective;
+  options: Options;
   agentRef: AngularFirestoreCollection<any>;
 
   adharUrl;
@@ -25,6 +29,7 @@ export class RegisterAgentPage implements OnInit {
   panUrlSub;
   base64Image;
 
+  adhar: FormControl;
 
   constructor(private fb: FormBuilder, private router: Router,
               private modalController: ModalController,
@@ -47,13 +52,13 @@ export class RegisterAgentPage implements OnInit {
       surname:['', Validators.required],
       adhar:['', [Validators.required, Validators.minLength(12)]],
       pan:['',[Validators.required, Validators.min(10)]],
-      destinations: this.fb.array([])
+      destination: this.fb.array([])
 
 
-    },[passwordMatch("password", "confimpassword")]);
+    });
 
     this.destinationForm = this.fb.group({
-      destinations: this.fb.array([])
+      destination: this.fb.array([])
     });
    }
 
@@ -62,6 +67,18 @@ export class RegisterAgentPage implements OnInit {
   }
   close(){
     this.modalController.dismiss();
+  }
+
+  onOtpChangeA(ev){
+    console.log(ev);
+    this.agentRegistrationForm.patchValue({adhar:ev})
+    
+  }
+
+  onOtpChangeP(ev){
+    console.log(ev);
+    this.agentRegistrationForm.patchValue({pan:ev})
+    
   }
 
   passwordMatchingValidatior(form: FormGroup)  {
@@ -80,19 +97,62 @@ export class RegisterAgentPage implements OnInit {
  }
 
 
+ public handleAddressChangeDestination(address: Address, i) {
+  // Do some stuff
+  console.log(address['formatted_address']);
+  let add = address['address_components'];
+  
+
+  let formArr = <FormArray>this.agentRegistrationForm.get("destination");
+
+  if(formArr.at(i)){
+    formArr.at(i).patchValue({
+      destination: address?.formatted_address
+    })
+  }
+  else{
+    formArr.push(this.fb.group({
+      destination: address?.formatted_address
+    }))
+  }
+  // this.agentRegistrationForm.get("destination").patchValue(address?.formatted_address)
+  // this.agentRegistrationForm.patchValue({
+  //   destination: address?.formatted_address
+  // })
+    
+
+
+
+}
+
+public handleAddressChange(address: Address) {
+  // Do some stuff
+  console.log(address['formatted_address']);
+  let add = address['address_components'];
+  
+
+  this.agentRegistrationForm.get("origin").patchValue(address?.formatted_address)
+  // this.agentRegistrationForm.patchValue({
+  //   destination: address?.formatted_address
+  // })
+    
+
+
+
+}
   get fields() {
-    return this.agentRegistrationForm.get("destinations") as FormArray;
+    return this.agentRegistrationForm.get("destination") as FormArray;
   }
 
   newField(): FormGroup {
     return this.fb.group({
-      destinations: '',
+      destination: '',
     })
   }
 
   addQuantity() {
     const field = this.fb.group({
-      destinations: '',
+      destination: '',
     })
     this.fields.push(field);
   }
@@ -131,10 +191,17 @@ export class RegisterAgentPage implements OnInit {
 
   async onSubmit(){
    
-
+    let obj = {
+      ...this.agentRegistrationForm.value,
+      adharUrl: this.adharUrl,
+      panUrl: this.panUrl,
+      // key: user.user.uid,
+    }
+    console.log(obj);
     let loading = await this.loadingController.create({
       message: "Registering user..."
     })
+
     await loading.present();
     this.auth.createUserWithEmailAndPassword(this.agentRegistrationForm.value.email, this.agentRegistrationForm.value.password)
     .then(async (user) =>{
@@ -142,7 +209,8 @@ export class RegisterAgentPage implements OnInit {
       let obj = {
         ...this.agentRegistrationForm.value,
         adharUrl: this.adharUrl,
-        panUrl: this.panUrl,key: user.user.uid,
+        panUrl: this.panUrl,
+        key: user.user.uid,
       }
       console.log(obj);
       this.agentRef.doc(user.user.uid).set(obj).then(async (data) =>

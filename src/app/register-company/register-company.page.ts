@@ -1,10 +1,14 @@
+import { HttpClient } from '@angular/common/http';
 import { AlertController, LoadingController, ModalController } from '@ionic/angular';
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { finalize } from 'rxjs/operators';
+import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
+import { Options } from 'ngx-google-places-autocomplete/objects/options/options';
+import { Address } from 'ngx-google-places-autocomplete/objects/address';
 
 @Component({
   selector: 'app-register-company',
@@ -12,8 +16,10 @@ import { finalize } from 'rxjs/operators';
   styleUrls: ['./register-company.page.scss'],
 })
 export class RegisterCompanyPage implements OnInit {
-
+  @ViewChild("placesRef") placesRef : GooglePlaceDirective;
+  options: Options;
   companyRegistrationForm: FormGroup;
+  destinationForm: FormGroup;
   panUrl;
   panUrlSub;
   companyRef: AngularFirestoreCollection<any>;
@@ -24,36 +30,101 @@ export class RegisterCompanyPage implements OnInit {
               private auth: AngularFireAuth,
               private alertController: AlertController,
               private loadingController: LoadingController,
+              private http: HttpClient,
               private storage: AngularFireStorage) {
 
                 this.companyRef = this.afs.collection('Company');
 
     this.companyRegistrationForm = this.fb.group({
-      CompanyName: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.minLength(5)]],
       password: ['', [Validators.required, Validators.minLength(5)]],
+      confirmpassword: ['', [Validators.required, Validators.minLength(5)]],
       origin: ['', [Validators.required]],
-      destination: ['', Validators.required],
+      destination: this.fb.array([]),
       mobile: ['', [Validators.required]],
       alternateMobile: ['', [Validators.required]],
       name: ['', Validators.required],
       surname:['', Validators.required],
-      flatNo: ['', [Validators.required]],
-      apartmentAddress:['', [Validators.required, Validators.minLength(8)]],
-      officeAddress:['',[Validators.required]],
       gst: ['', [Validators.required]]
 
 
     })
+
+    this.destinationForm = this.fb.group({
+      destinations: this.fb.array([])
+    });
    }
 
 
-  ngOnInit(): void {
-    throw new Error('Method not implemented.');
+  ngOnInit() {
   }
 
+  get fields() {
+    return this.companyRegistrationForm.get("destination") as FormArray;
+  }
+
+  newField(): FormGroup {
+    return this.fb.group({
+      destination: '',
+    })
+  }
+
+  addQuantity() {
+    const field = this.fb.group({
+      destination: '',
+    })
+    this.fields.push(field);
+  }
+
+  removeQuantity(i: number) {
+    this.fields.removeAt(i);
+  }
   close(){
     this.modalController.dismiss();
+  }
+
+  public handleAddressChangeDestination(address: Address, i) {
+    // Do some stuff
+    console.log(address['formatted_address']);
+    let add = address['address_components'];
+    
+  
+    let formArr = <FormArray>this.companyRegistrationForm.get("destination");
+  
+    if(formArr.at(i)){
+      formArr.at(i).patchValue({
+        destination: address?.formatted_address
+      })
+    }
+    else{
+      formArr.push(this.fb.group({
+        destination: address?.formatted_address
+      }))
+    }
+    // this.agentRegistrationForm.get("destination").patchValue(address?.formatted_address)
+    // this.agentRegistrationForm.patchValue({
+    //   destination: address?.formatted_address
+    // })
+      
+  
+  
+  
+  }
+  
+  public handleAddressChange(address: Address) {
+    // Do some stuff
+    console.log(address['formatted_address']);
+    let add = address['address_components'];
+    
+  
+    this.companyRegistrationForm.get("origin").patchValue(address?.formatted_address)
+    // this.agentRegistrationForm.patchValue({
+    //   destination: address?.formatted_address
+    // })
+      
+  
+  
+  
   }
   async presentError(msg) {
     const alert = await this.alertController.create({
@@ -82,12 +153,69 @@ export class RegisterCompanyPage implements OnInit {
     await alert.present();
   }
 
-  async onSubmit(){
-    let obj = {
-      ...this.companyRegistrationForm.value,
-     panUrl: this.panUrl
+  onOtpChangeA(ev){
+    console.log(ev);
+    this.companyRegistrationForm.patchValue({adhar:ev});
+    
+  }
+
+  onOtpChangeP(ev){
+    console.log(ev);
+    this.companyRegistrationForm.patchValue({pan:ev});
+    
+  }
+
+
+  
+
+  gstHandleEvent(ev) {
+    let value = ev.detail.value;
+    console.log(value);
+    console.log(value.length);
+    if (value.length == 15) {
+      console.log("Send Gst Api request");
+      this.getGstDataFromApi(value);
     }
-    console.log(obj);
+
+  }
+  async getGstDataFromApi(gst){
+
+
+    this.http.get(`https://api.consign.co.in/getgst/${gst}`)
+    .subscribe((value) => {
+      console.log(value);
+      let addr = value['data']['data']['adadr'][0];
+      let pradr = value['data']['data']['pradr']['addr'];
+      let companyname = value['data']['data']['lgnm'];
+      console.log(addr.length);
+      console.log(pradr);
+
+      this.companyRegistrationForm.get("name").setValue(companyname);
+      if(Object.getOwnPropertyNames(pradr).length !== 0){
+        console.log(`PRADR is empty`);
+        let add = pradr['bnm'] + " "+  pradr['bno'] + " " + pradr['loc'] + " " + pradr['st'] + " "+ pradr['pncd'] + " " + pradr['stcd'] + " " + pradr['dst'];
+        this.companyRegistrationForm.get("surname").setValue(add)
+        
+      }
+
+      if(addr.length !== 0){
+        console.log(`addr is empty`);
+        let add = addr['bnm']+ " "+ addr['bno'] + " " + addr['loc'] + " " +addr['st'] + " "+ addr['stcd'] +" " +addr['dst'] +" " +addr['pncd'];
+        this.companyRegistrationForm.get("surname").setValue(add);
+      }
+      
+      
+    })
+
+    
+  }
+  async onSubmit(){
+let obj = {
+  ...this.companyRegistrationForm.value
+}
+   
+console.log(obj);
+
 
     let loading = await this.loadingController.create({
       message: "Registering user..."
@@ -96,6 +224,11 @@ export class RegisterCompanyPage implements OnInit {
     this.auth.createUserWithEmailAndPassword(this.companyRegistrationForm.value.email, this.companyRegistrationForm.value.password)
     .then(async (user) =>{
       console.log(user.user.uid);
+      let obj = {
+        key: user.user.uid,
+        ...this.companyRegistrationForm.value,
+       panUrl: this.panUrl
+      }
       this.companyRef.doc(user.user.uid).set(obj).then(async (data) =>
       {
         await loading.dismiss();

@@ -21,21 +21,21 @@
           <ion-input required formControlName="password" type="text"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-label position="floating">Company Name <ion-text color="danger">*</ion-text></ion-label>
-          <ion-input required formControlName="CompanyName" type="text"></ion-input>
+          <ion-label position="floating">Confirm Password<ion-text color="danger">*</ion-text></ion-label>
+          <ion-input required formControlName="confirmpassword" type="text"></ion-input>
         </ion-item>
 
         <ion-item>
           <ion-label position="floating">GST Number <ion-text color="danger">*</ion-text></ion-label>
-          <ion-input required formControlName="gst" type="text"></ion-input>
+          <ion-input  (ionChange)="gstHandleEvent($event)" required formControlName="gst" type="text"></ion-input>
         </ion-item>
         
         <ion-item>
-          <ion-label position="floating">Firstname <ion-text color="danger">*</ion-text></ion-label>
+          <ion-label position="floating">Company <ion-text color="danger">*</ion-text></ion-label>
           <ion-input required formControlName="name" type="text"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-label position="floating">Lastname <ion-text color="danger">*</ion-text></ion-label>
+          <ion-label position="floating">Address <ion-text color="danger">*</ion-text></ion-label>
           <ion-input required formControlName="surname" type="text"></ion-input>
         </ion-item>
         <ion-item>
@@ -47,14 +47,45 @@
           <ion-input required formControlName="alternateMobile" type="number"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-label position="floating">Origin <ion-text color="danger">*</ion-text></ion-label>
-          <ion-input required formControlName="origin" type="text"></ion-input>
+          <ion-label position="stacked">Aadhaar Number <ion-text color="danger">*</ion-text></ion-label>
+          <ng-otp-input (onInputChange)="onOtpChangeA($event)"  [config]="{length:12}"></ng-otp-input>
         </ion-item>
         <ion-item>
-          <ion-label position="floating">Destination <ion-text color="danger">*</ion-text></ion-label>
-          <ion-input required formControlName="destination" type="text"></ion-input>
+          <ion-label position="stacked">Pan Number <ion-text color="danger">*</ion-text></ion-label>
+          <ng-otp-input (onInputChange)="onOtpChangeP($event)"  [config]="{length:10}"></ng-otp-input>
         </ion-item>
         <ion-item>
+          <ion-label position="stacked">Origin <ion-text color="danger">*</ion-text></ion-label>
+          <input  style="width: 100%; border-top: none; border-left: none; border-right: none; border-bottom: none;" formControlName="origin" type="text"
+          ngx-google-places-autocomplete
+           [options]='options' #placesRef="ngx-places"
+           (onAddressChange)="handleAddressChange($event)" />
+        </ion-item>
+        <table class="table table-bordered" formArrayName="destination">
+          <tr>
+            <th colspan="6">Add Destination: <p style="font-style: italic; font-size: 10px;">(Enter only City or Town names)</p> </th>
+            <th width="150px"><ion-button (click)="addQuantity()">
+              <ion-icon fill="clear" slot="icon-only" name="add"></ion-icon>
+            </ion-button></th>
+          </tr>
+          <tr *ngFor="let quantity of fields.controls; let i=index" [formGroupName]="i">
+            <td>
+              <ion-item>
+                <ion-label>Destination served:- </ion-label>
+                <input  style="width: 100%; border-top: none; border-left: none; border-right: none; border-bottom: none;" formControlName="destination" type="text"
+           ngx-google-places-autocomplete
+            [options]='options' #placesRef="ngx-places"
+            (onAddressChange)="handleAddressChangeDestination($event,i)" />
+              </ion-item>
+               
+            </td>
+           
+            <td>
+                <ion-button (click)="removeQuantity(i)" color="danger">Remove</ion-button>
+            </td>
+          </tr>
+        </table>
+        <!-- <ion-item>
           <ion-label position="floating">Flat no <ion-text color="danger">*</ion-text></ion-label>
           <ion-input required formControlName="flatNo" type="text"></ion-input>
         </ion-item>
@@ -65,7 +96,7 @@
         <ion-item>
           <ion-label position="floating">Office Address <ion-text color="danger">*</ion-text></ion-label>
           <ion-input required formControlName="officeAddress" type="text"></ion-input>
-        </ion-item>
+        </ion-item> -->
 
         <ion-text color="primary">
           <h1>Pan Card</h1>

@@ -1,3 +1,5 @@
+import { NgOtpInputModule } from 'ng-otp-input';
+import { GooglePlaceDirective, GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -14,6 +16,8 @@ import { RegisterCompanyPage } from './register-company.page';
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
+    NgOtpInputModule,
+    GooglePlaceModule,
     RegisterCompanyPageRoutingModule
   ],
   declarations: [RegisterCompanyPage]

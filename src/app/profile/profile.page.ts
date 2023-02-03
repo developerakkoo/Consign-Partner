@@ -24,11 +24,11 @@ export class ProfilePage implements OnInit {
   destinationArray:any[];
   userId:string;
   type;
-  userForm: FormGroup;
+  agentForm: FormGroup;
   vehicleOwnerForm: FormGroup;
   companyForm: FormGroup;
   isVehicleForm: boolean = false;
-  isCustomerForm: boolean = false;
+  isAgentForm: boolean = false;
   isCompanyForm: boolean =false;
   user: Observable<any[]>;
   userCollection: AngularFirestoreCollection<any>;
@@ -37,12 +37,17 @@ export class ProfilePage implements OnInit {
               private fb: FormBuilder, private data: DataService,
               private loadingController: LoadingController,
               private router: Router) {
-                this.userForm = this.fb.group({
+                this.agentForm = this.fb.group({
                   name:[''],
                   email: [''],
                   password: [''],
                   address: [''],
                   mobile: [''],
+                  alternatemobile: [''],
+                  gst: [''],
+                  origin:[''],
+                  destination: new FormArray([]),
+                  vehicleType: new FormArray([])
 
                 });
 
@@ -57,6 +62,17 @@ export class ProfilePage implements OnInit {
                   destination: new FormArray([]),
                   vehicleType: new FormArray([])
                 })
+
+                this.companyForm = this.fb.group({
+                  name:[''],
+                  email: [''],
+                  password: [''],
+                  mobile: [''],
+                  alternatemobile: [''],
+                  gst: [''],
+                  origin:[''],
+                  destination: new FormArray([]),
+                })
                }
 
   async ngOnInit() {
@@ -69,12 +85,12 @@ export class ProfilePage implements OnInit {
     if(this.type == "VehicleOwner"){
       this.isVehicleForm = true;
       this.isCompanyForm = false;
-      this.isCustomerForm = false;
+      this.isAgentForm = false;
       this.userCollection = this.afs.collection(this.type, ref => ref.where('key', '==', this.userId));
     this.user = this.userCollection.valueChanges();
     this.user.subscribe((user: any) =>
     {
-      console.log(user[0]['destination']);
+      console.log(user[0]);
       this.destinationArray = user[0]['destination'];
       this.vehicleOwnerForm.controls.destination.patchValue(['nashik', 'pune'])
             this.vehicleOwnerForm.controls.name.setValue(user[0]?.['name']);
@@ -82,7 +98,7 @@ export class ProfilePage implements OnInit {
       this.vehicleOwnerForm.controls.password.setValue(user[0]?.['password']);
       this.vehicleOwnerForm.controls.mobile.setValue(user[0]?.['mobile']);
       this.vehicleOwnerForm.controls.alternatemobile.setValue(user[0]?.['alternateMobile']);
-      this.vehicleOwnerForm.controls.gst.setValue(user[0]?.['gstNo']);
+      this.vehicleOwnerForm.controls.gst.setValue(user[0]?.['gst']);
       this.vehicleOwnerForm.controls.origin.setValue(user[0]?.['origin']);
       // this.vehicleOwnerForm.setValue(user[0]?.['destination'][0]['destination'])
       // this.vehicleOwnerForm.controls.vehicleType.setValue(user[0]?.['vehicleType'][0])
@@ -103,6 +119,80 @@ export class ProfilePage implements OnInit {
  
     }
     
+
+    if(this.type == "Agent"){
+      this.isVehicleForm = false;
+      this.isCompanyForm = false;
+      this.isAgentForm = true;
+      this.userCollection = this.afs.collection('Agent', ref => ref.where('key', '==', this.userId));
+    this.user = this.userCollection.valueChanges();
+    this.user.subscribe((user: any) =>
+    {
+      console.log(user);
+      this.destinationArray = user[0]['destination'];
+            this.agentForm.controls.name.setValue(user[0]?.['name']);
+      this.agentForm.controls.email.setValue(user[0]?.['email']);
+      this.agentForm.controls.password.setValue(user[0]?.['password']);
+      this.agentForm.controls.mobile.setValue(user[0]?.['mobile']);
+      this.agentForm.controls.alternatemobile.setValue(user[0]?.['alternateMobile']);
+      this.agentForm.controls.gst.setValue(user[0]?.['gst']);
+      this.agentForm.controls.origin.setValue(user[0]?.['origin']);
+      // this.vehicleOwnerForm.setValue(user[0]?.['destination'][0]['destination'])
+      // this.vehicleOwnerForm.controls.vehicleType.setValue(user[0]?.['vehicleType'][0])
+      let field;
+      for (let index = 0; index < this.destinationArray.length; index++) {
+        const element = this.destinationArray[index];
+        console.log(element);
+
+        field = this.fb.group(element);
+        this.fieldsAgent.push(field);
+      }
+
+    }, (error) =>{
+      console.log(error);
+      
+    })
+
+ 
+    }
+    
+
+    if(this.type == "Company"){
+      this.isVehicleForm = false;
+      this.isCompanyForm = true;
+      this.isAgentForm = false;
+      this.userCollection = this.afs.collection('Company', ref => ref.where('key', '==', this.userId));
+    this.user = this.userCollection.valueChanges();
+    this.user.subscribe((user: any) =>
+    {
+      console.log(user);
+      this.destinationArray = user[0]['destination'];
+            this.companyForm.controls.name.setValue(user[0]?.['name']);
+      this.companyForm.controls.email.setValue(user[0]?.['email']);
+      this.companyForm.controls.password.setValue(user[0]?.['password']);
+      this.companyForm.controls.mobile.setValue(user[0]?.['mobile']);
+      this.companyForm.controls.alternatemobile.setValue(user[0]?.['alternateMobile']);
+      this.companyForm.controls.gst.setValue(user[0]?.['gst']);
+      this.companyForm.controls.origin.setValue(user[0]?.['origin']);
+      // this.vehicleOwnerForm.setValue(user[0]?.['destination'][0]['destination'])
+      // this.vehicleOwnerForm.controls.vehicleType.setValue(user[0]?.['vehicleType'][0])
+      let field;
+      for (let index = 0; index < this.destinationArray.length; index++) {
+        const element = this.destinationArray[index];
+        console.log(element);
+
+        field = this.fb.group(element);
+        this.fieldsCompany.push(field);
+      }
+
+    }, (error) =>{
+      console.log(error);
+      
+    })
+
+ 
+    }
+    
     
     
 
@@ -113,6 +203,13 @@ export class ProfilePage implements OnInit {
     return this.vehicleOwnerForm.get("destination") as FormArray;
   }
 
+  get fieldsAgent() {
+    return this.agentForm.get("destination") as FormArray;
+  }
+
+  get fieldsCompany() {
+    return this.companyForm.get("destination") as FormArray;
+  }
   newField(): FormGroup {
     return this.fb.group({
       destination: '',
@@ -130,6 +227,32 @@ export class ProfilePage implements OnInit {
     this.fieldsVehicle.removeAt(i);
   }
 
+
+  addQuantityAgent() {
+    const field = this.fb.group({
+      destination: '',
+    })
+    this.fieldsAgent.push(field);
+  }
+
+  removeQuantityAgent(i: number, q) {
+    console.log(q);
+    
+    this.fieldsAgent.removeAt(i);
+  }
+
+  addQuantityCompany() {
+    const field = this.fb.group({
+      destination: '',
+    })
+    this.fieldsCompany.push(field);
+  }
+
+  removeQuantityCompany(i: number) {
+    this.fieldsCompany.removeAt(i);
+  }
+
+
   public handleAddressChange(address: Address) {
     // Do some stuff
     console.log(address);
@@ -141,42 +264,77 @@ export class ProfilePage implements OnInit {
     this.vehicleOwnerForm.setValue({
       destination: address['formatted_address']
     })
-      // this.ionicForm.setValue({
-      //   name: this.ionicForm.value.name, 
-      //   mobile: this.ionicForm.value.mobile,
-      //   mobileOtp: this.ionicForm.value.mobileOtp,
-      //   password: this.ionicForm.value.password,
-      //   confirmpassword: this.ionicForm.value.confirmpassword,
-      //   email: this.ionicForm.value.email,
-      //   emailOtp: this.ionicForm.value.emailOtp,
-      //   gstNo: this.ionicForm.value.gstNo,
-      //   adress: address['formatted_address'],
-      // });
+     
 
   
 
   }
 
-  async onSubmit(){
+  async onSubmit(type){
     let loading = await this.loadingController.create({
       message: "Updating User..."
     })
     await loading.present();
-   this.afs.doc(`VehicleOwner/${this.userId}`).update({
-    address: this.userForm.value.address,
-    mobile: this.userForm.value.mobile,
-    name: this.userForm.value.name,
-   }).then(async (user) =>{
-    console.log(user);
-    await loading.dismiss();
-
+   if(type === 'Company'){
+    this.afs.doc(`${type}/${this.userId}`).update({
+      name: this.companyForm.value.name,
+mobile: this.companyForm.value.mobile,
+alternatemobile: this.companyForm.value.alternatemobile,
+gst: this.companyForm.value.gst,
+origin: this.companyForm.value.origin,
+destination: this.companyForm.value.destination
+     }).then(async (user) =>{
+      console.log(user);
+      await loading.dismiss();
+  
+      
+     }).catch(async (error) =>{
+      console.log(error);
+      await loading.dismiss();
+      
+     })
+   }
+   if(type === 'Agent'){
+    this.afs.doc(`${type}/${this.userId}`).update({
+      name: this.agentForm.value.name,
+mobile: this.agentForm.value.mobile,
+alternatemobile: this.agentForm.value.alternatemobile,
+gst: this.agentForm.value.gst,
+origin: this.agentForm.value.origin,
+destination: this.agentForm.value.destination,
+vehicleType: this.agentForm.value.vehicleType
+     }).then(async (user) =>{
+      console.log(user);
+      await loading.dismiss();
+  
+      
+     }).catch(async (error) =>{
+      console.log(error);
+      await loading.dismiss();
+      
+     })
+   }
     
-   }).catch(async (error) =>{
-    console.log(error);
-    await loading.dismiss();
-    
-   })
-    
+   if(type === 'VehicleOwner'){
+    this.afs.doc(`${type}/${this.userId}`).update({
+      name: this.vehicleOwnerForm.value.name,
+      mobile: this.vehicleOwnerForm.value.mobile,
+      alternatemobile: this.vehicleOwnerForm.value.alternatemobile,
+      gst: this.vehicleOwnerForm.value.gst,
+      origin: this.vehicleOwnerForm.value.origin,
+      destination: this.vehicleOwnerForm.value.destination,
+      vehicleType: this.vehicleOwnerForm.value.vehicleType
+     }).then(async (user) =>{
+      console.log(user);
+      await loading.dismiss();
+  
+      
+     }).catch(async (error) =>{
+      console.log(error);
+      await loading.dismiss();
+      
+     })
+   }
   }
 
   openPasswordResetPage(){

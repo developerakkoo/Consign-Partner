@@ -19,13 +19,13 @@ const gst = "27AACCF5797L1ZY";
 export class RegisterVehicleownerPage implements OnInit {
 
   @ViewChild("placesRef") placesRef : GooglePlaceDirective;
+  options: Options;
   vehicleRegistrationForm: FormGroup;
   destinationForm: FormGroup;
   vehicleRef: AngularFirestoreCollection<any>;
   vehicleDataRef: AngularFirestoreCollection<any>;
   vehicleData: Observable<any>;
 
-  options: Options;
   isGstAvailable: boolean = false;
   drivingLicenseUrl;
   drivingLicenseUrlSub;
@@ -69,7 +69,7 @@ export class RegisterVehicleownerPage implements OnInit {
       surname:['', Validators.required],
       // apartmentAddress:['', [Validators.required, Validators.minLength(8)]],
       // officeAddress:['',[Validators.required]],
-      gstNo: ['', [Validators.pattern('^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$')]],
+      // gstNo: ['', [Validators.pattern('^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$')]],
       
 
     });
@@ -106,6 +106,7 @@ export class RegisterVehicleownerPage implements OnInit {
   close(){
     this.modalController.dismiss();
   }
+
 
   async presentError(msg) {
     const alert = await this.alertController.create({
@@ -187,31 +188,48 @@ export class RegisterVehicleownerPage implements OnInit {
     
   }
 
+  public handleAddressChangeDestination(address: Address, i) {
+    // Do some stuff
+    console.log(address['formatted_address']);
+    let add = address['address_components'];
+    
+  
+    let formArr = <FormArray>this.vehicleRegistrationForm.get("destination");
+  
+    if(formArr.at(i)){
+      formArr.at(i).patchValue({
+        destination: address?.formatted_address
+      })
+    }
+    else{
+      formArr.push(this.formBuilder.group({
+        destination: address?.formatted_address
+      }))
+    }
+    // this.agentRegistrationForm.get("destination").patchValue(address?.formatted_address)
+    // this.agentRegistrationForm.patchValue({
+    //   destination: address?.formatted_address
+    // })
+      
+  
+  
+  
+  }
+  
   public handleAddressChange(address: Address) {
     // Do some stuff
-    console.log(address);
+    console.log(address['formatted_address']);
     let add = address['address_components'];
-    console.log(add[add.length - 1 ]['long_name']);
-    console.log(add[add.length - 3 ]['long_name']);
-    console.log(add[add.length - 4 ]['long_name']);
-
-    this.vehicleRegistrationForm.setValue({
-      destination: address['formatted_address']
-    })
-      // this.ionicForm.setValue({
-      //   name: this.ionicForm.value.name, 
-      //   mobile: this.ionicForm.value.mobile,
-      //   mobileOtp: this.ionicForm.value.mobileOtp,
-      //   password: this.ionicForm.value.password,
-      //   confirmpassword: this.ionicForm.value.confirmpassword,
-      //   email: this.ionicForm.value.email,
-      //   emailOtp: this.ionicForm.value.emailOtp,
-      //   gstNo: this.ionicForm.value.gstNo,
-      //   adress: address['formatted_address'],
-      // });
-
+    
   
-
+    this.vehicleRegistrationForm.get("origin").patchValue(address?.formatted_address)
+    // this.agentRegistrationForm.patchValue({
+    //   destination: address?.formatted_address
+    // })
+      
+  
+  
+  
   }
 
 

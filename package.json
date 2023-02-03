@@ -29,7 +29,10 @@
     "@ionic/storage-angular": "^3.0.6",
     "firebase": "^9.9.3",
     "howler": "^2.2.3",
+    "ng-otp-input": "^1.8.5",
     "ngx-google-places-autocomplete": "^2.0.5",
+    "ngx-otp-input": "^0.11.4",
+    "ngx-pass-code": "^1.1.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
     "zone.js": "~0.11.4"

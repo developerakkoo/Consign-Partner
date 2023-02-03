@@ -1,3 +1,4 @@
+import { NgOtpInputModule } from 'ng-otp-input';
 import { environment } from './../environments/environment';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -32,6 +33,7 @@ const firebaseConfig = {
     AngularFireModule.initializeApp(firebaseConfig),
     HttpClientModule,
     GooglePlaceModule,
+    NgOtpInputModule,
   AngularFireAuthModule, AngularFireDatabaseModule,AngularFireStorageModule,AngularFirestoreModule, IonicStorageModule.forRoot({name: 'agent'})],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
