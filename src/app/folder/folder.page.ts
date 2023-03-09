@@ -1,3 +1,4 @@
+import { TaxinvoicePage } from './../taxinvoice/taxinvoice.page';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
@@ -217,7 +218,7 @@ export class FolderPage implements OnInit {
       this.isEnquiriesSegment = false;
       this.isSubmittedSegment =false;
       this.isApprovedSegment = true;
-      this.segmentName = 'green';
+      this.segmentName = 'assigned';
       this.OrderCollection = this.afs.collection<any>('Orders', ref => ref.where('status', '==',this.segmentName).orderBy("createdAt", "desc"));
                 this.orders = this.OrderCollection.valueChanges();
                 this.orders.subscribe((data) =>{
@@ -297,16 +298,13 @@ export class FolderPage implements OnInit {
   openProfilePage(){
     this.router.navigate(['profile']);
   }
-  onOpenDetailPage(id, value){
-    console.log(id);
-    if(value == true){
-      this.router.navigate(['approved', id]);
-
-    }
-    else if(value == false){
-
-      this.router.navigate(['enquiry', id, value]);
-    }
+  async onOpenDetailPage(order){
+    const modal = await this.modalController.create({
+      component: TaxinvoicePage,
+      componentProps: { quote: order }
+      });
+    
+      await modal.present();
     
   }
 

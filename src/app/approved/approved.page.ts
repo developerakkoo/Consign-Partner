@@ -71,6 +71,9 @@ export class ApprovedPage implements OnInit {
 
   Endtime;
 
+  isOnline;
+  isCash;
+
 
   quoteCollection: AngularFirestoreCollection<any>;
 
@@ -152,6 +155,18 @@ export class ApprovedPage implements OnInit {
 
   }
 
+  paymentEvent(ev){
+    console.log(ev.detail.value);
+    if(ev.detail.value == "cash"){
+      this.isCash = true;
+      this.isOnline = false;
+    }
+    else if(ev.detail.value == "online"){
+      this.isCash = false;
+      this.isOnline = true;
+    }
+    
+  }
   startOrder() {
     console.log(this.startOtp);
     if (this.startOtp == this.startOTPInput) {

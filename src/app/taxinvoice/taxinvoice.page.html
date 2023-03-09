@@ -1,0 +1,108 @@
+
+<ion-toolbar>
+  <ion-button slot="end" fill="clear" (click)="downloadInvoice()">
+    <ion-icon slot="icon-only" name="download"></ion-icon>
+  </ion-button>
+  <ion-button (click)="close()" slot="end" fill="clear">
+    <ion-icon slot="icon-only" name="close"></ion-icon>
+  </ion-button>
+</ion-toolbar>
+<ion-content>
+<ion-grid #invoice id="invoice">
+  <ion-row>
+    <ion-col size="12">
+      <ion-label>
+        {{companyName}}
+        <p>GST:-{{gst}} </p>
+        <p>Address: {{companyAddress}} </p>
+      </ion-label>
+      <ion-text class="ion-text-center" color="primary">
+        <h1>TAX INVOICE</h1>
+        
+        <h6>
+          (Tax Invoice Number - {{invoiceNumber || "------"}}, DATED: {{todaysDate || "------"}})
+
+        </h6>
+     
+      </ion-text>
+
+      <ion-row style="border:1px solid black;">
+        <ion-col size="6" style="border-right:1px solid black ;">
+        <ion-label>
+          <p><strong>Sender</strong> {{senderObj?.FullName}}</p><br>
+          <p><strong>Mobile</strong> {{senderObj?.MobileNo}}</p><br>
+          <p><strong>GST</strong> {{senderObj?.gst || "No Gst"}} </p><br>
+          <p><strong>Firm Name</strong> {{senderObj?.Name || "No Firm Name"}} </p><br>
+          <p><strong>Address</strong> {{senderObj?.Address}} </p><br>
+        </ion-label>
+
+        <br>
+      
+        </ion-col>
+        <ion-col size="6">
+          <ion-label>
+            <p ><strong>Receiver</strong> {{receiverObj?.FullName}}</p><br>
+            <p ><strong>Mobile</strong> {{receiverObj?.MobileNo}}</p><br>
+            <p ><strong>GST</strong> {{receiverObj?.gst || "No Gst"}} </p><br>
+            <p ><strong>Firm Name</strong> {{receiverObj?.Name || "No Firm Name"}} </p><br>
+            <p ><strong>Address</strong> {{receiverObj?.Address}} </p><br>
+          </ion-label>
+
+          <br>
+       
+        
+        </ion-col>
+      </ion-row>
+    </ion-col>
+    <ion-row>
+      <ion-col size="6">
+        <ion-label>
+         
+          <p style="border-bottom:1px solid black;"><strong>FREIGHT</strong></p>
+          <!-- For Local No IGST -->
+          <!-- <p style="border-bottom:1px solid black;"><strong>IGST 12%</strong></p> -->
+          <p *ngIf="isCgstSgst" style="border-bottom:1px solid black;"><strong>CGST {{gstPercent}}% </strong></p>
+          <p *ngIf="isCgstSgst" style="border-bottom:1px solid black;"><strong>SGST {{gstPercent}}%</strong></p>
+
+          <p *ngIf="isIgstUIgst" style="border-bottom:1px solid black;"><strong>IGST {{gstPercent}}% </strong></p>
+          <p *ngIf="isIgstUIgst" style="border-bottom:1px solid black;"><strong>UGST {{gstPercent}}%</strong></p>
+
+
+          <p *ngIf="isGst" style="border-bottom:1px solid black;"><strong>GST {{gstPercent}}%</strong></p>
+          <p style="border-bottom:1px solid black;"><strong>TOTAL</strong></p>
+          <p style="border-bottom:1px solid black;"><strong>GRAND TOTAL</strong></p>
+
+        </ion-label>
+      </ion-col>
+      <ion-col size="6">
+        <ion-label>
+          <p style="border-bottom:1px solid black;"><strong>{{FreightCharges  |currency:"INR"}}</strong></p>
+
+          <p style="border-bottom:1px solid black;"><strong>{{gstCharges |currency:"INR"}}</strong></p>
+          <p *ngIf="isCgstSgst" style="border-bottom:1px solid black;"><strong>{{cgst|currency:"INR"}}</strong></p>
+          <p *ngIf="isCgstSgst" style="border-bottom:1px solid black;"><strong>{{sgst |currency:"INR"}}</strong></p>
+          <p *ngIf="isIgstUIgst" style="border-bottom:1px solid black;"><strong>{{igst |currency:"INR"}}</strong></p>
+          <p *ngIf="isIgstUIgst" style="border-bottom:1px solid black;"><strong>{{ugst |currency:"INR"}}</strong></p>
+          <p *ngIf="isGst" style="border-bottom:1px solid black;"><strong>{{gst |currency:"INR"}}</strong></p>
+          <p style="border-bottom:1px solid black;"><strong>{{totalCharges |currency:"INR"}}</strong></p>
+          <p style="border-bottom:1px solid black;"><strong> {{grandTotalCharges |currency:"INR"}} </strong></p>
+
+        </ion-label>
+
+      </ion-col>
+    </ion-row>
+    <ion-label>
+      <p style="color: black;"> NOTE: PLEASE PAY <strong>WAITING CHARGES</strong> RS, {{waitingCharges | currency:"INR"}} AND <strong>CANCELLLATION CHARGES</strong> RS, {{cancelCharges | currency:"INR"}}
+        IF ANY TO THE DRIVER OF THE VEHICLE. AND <strong>PACKING CHARGES</strong> RS {{packagingCharges| currency:"INR"}}, AND 
+       <strong>HELPER CHARGES</strong> {{helperCharges | currency:"INR"}}. TO PACKER AND HELPER.
+        <p>
+      </ion-label>
+  </ion-row>
+</ion-grid>
+
+
+ 
+
+
+
+</ion-content>

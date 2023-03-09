@@ -81,7 +81,7 @@
         <ion-list *ngIf="isCompletedSegment">
           
 
-          <ion-item *ngFor="let order of orders |async" (click)="onOpenDetailPage(order.orderId, true)" detail>
+          <ion-item *ngFor="let order of orders |async" (click)="onOpenDetailPage(order)" detail>
             <ion-label>
               <h4>Pick up: {{order.sender?.FlatNo | uppercase}} {{order.sender?.Address | uppercase}} {{order.sender?.City | uppercase}} </h4>
               <h5>Drop:{{order.receiver?.FlatNo | uppercase}} {{order.receiver?.Address | uppercase}} {{order.receiver?.City | uppercase}}</h5>

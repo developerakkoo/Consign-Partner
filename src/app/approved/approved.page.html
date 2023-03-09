@@ -29,8 +29,40 @@
     <ion-row>
       
       <ion-col sizeLg="4" offsetLg="4">
+        <ion-list>
+          <ion-radio-group (ionChange)="paymentEvent($event)">
+            <ion-list-header>
+              <ion-label>Payment Done In</ion-label>
+            </ion-list-header>
+            <ion-item>
+              <ion-label>Cash</ion-label>
+              <ion-radio value="cash"></ion-radio>
+            </ion-item>
+            <ion-item>
+              <ion-label>Online</ion-label>
+              <ion-radio value="online"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+        </ion-list>
+
         <ion-card>
        
+          <ion-card *ngIf="isOnline">
+            <ion-card-header>
+              <ion-card-subtitle>Payment options</ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-label>
+                <h5> <strong>Name</strong> Company name here </h5>
+                <h5> <strong>Account no</strong> Account no here </h5>
+                <h5> <strong>IFSC</strong> BDCPHDGFFC </h5>
+              </ion-label>
+
+              <hr>
+              <p>Or Scan the QR Code below</p>
+              <img src="assets/big-qr.png" alt="" srcset="">
+            </ion-card-content>
+          </ion-card>
           <ion-card-content>
             <ion-item>
               <ion-label>START OTP</ion-label>
