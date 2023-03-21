@@ -5,6 +5,7 @@ import { LoadingController, AlertController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { DataService } from '../services/data.service';
 import {Howl, Howler} from 'howler';
+import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 
 @Component({
   selector: 'app-approved',
@@ -50,6 +51,8 @@ export class ApprovedPage implements OnInit {
   quoteRef: AngularFirestoreDocument<any>;
   quote: Observable<any>;
 
+  locationRef: AngularFirestoreCollection<any>;
+
   images: any[] = [];
   date: string;
   time: string;
@@ -83,6 +86,7 @@ export class ApprovedPage implements OnInit {
     private afs: AngularFirestore,
     private data: DataService,
     private alertController: AlertController,
+    private geolocation: Geolocation,
     private route: ActivatedRoute) { }
 
   async ngOnInit() {
@@ -93,6 +97,7 @@ export class ApprovedPage implements OnInit {
     console.log(`OrderId ${this.orderid}`);
     console.log(`APrtner Id ${this.partnerId}`);
     this.OrderRef = this.afs.doc(`Orders/${this.orderid}`);
+    this.locationRef = this.afs.collection(`track`);
     
     
 
@@ -228,12 +233,13 @@ export class ApprovedPage implements OnInit {
            this.OrderRef.update({
             message: "Start OTP Entered By SP Success.",
             startTime: new Date().toISOString()
+
             
            }).then(async (success) => {
              
             await loading.dismiss();
             this.presentAlertStarted("Order Successfully started.")
-             
+             this.setLocation();
             // this.router.navigate(['biling', this.orderid]);
             
          }).catch(async(error) => {
@@ -248,6 +254,29 @@ export class ApprovedPage implements OnInit {
     });
 
     await alert.present();
+  }
+
+  setLocation(){
+    let id = this.afs.createId();
+
+   let watch =  this.geolocation.watchPosition();
+   watch.subscribe((pos) =>{
+    console.log(pos?.['coords'].latitude);
+    console.log(pos?.['coords'].longitude);
+    this.locationRef.doc(id).set({
+      location: {
+        lat: pos?.['coords'].latitude,
+        lng: pos?.['coords'].longitude
+      },
+      orderId: this.orderid
+    }).then((loc) =>{
+      console.log(loc);
+      
+    }).catch((error) =>{
+      console.log(error);
+      
+    })
+   })
   }
 
   async presentAlertConfirmStop(msg) {

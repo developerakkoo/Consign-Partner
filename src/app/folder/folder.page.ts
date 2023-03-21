@@ -299,12 +299,14 @@ export class FolderPage implements OnInit {
     this.router.navigate(['profile']);
   }
   async onOpenDetailPage(order){
-    const modal = await this.modalController.create({
-      component: TaxinvoicePage,
-      componentProps: { quote: order }
-      });
+    console.log(order);
+    this.router.navigate(['approved', order.orderId])
+    // const modal = await this.modalController.create({
+    //   component: TaxinvoicePage,
+    //   componentProps: { quote: order }
+    //   });
     
-      await modal.present();
+    //   await modal.present();
     
   }
 

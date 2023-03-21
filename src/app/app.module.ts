@@ -17,6 +17,8 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { HttpClientModule } from '@angular/common/http';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
+import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
+
 const firebaseConfig = {
   apiKey: "AIzaSyB8jWxZPWeAFvV1HFMnYtM5ohdKYPsk15E",
   authDomain: "consign-612af.firebaseapp.com",
@@ -35,7 +37,7 @@ const firebaseConfig = {
     GooglePlaceModule,
     NgOtpInputModule,
   AngularFireAuthModule, AngularFireDatabaseModule,AngularFireStorageModule,AngularFirestoreModule, IonicStorageModule.forRoot({name: 'agent'})],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },Geolocation],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
